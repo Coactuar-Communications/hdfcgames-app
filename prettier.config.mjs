@@ -1,34 +1,15 @@
-/** @type {import('prettier').Config} */
+/**
+ * @type {import("prettier").Config}
+ * Need to restart IDE when changing configuration
+ * Open the command palette (Ctrl + Shift + P) and execute the command > Reload Window.
+ */
 const config = {
-  endOfLine: 'lf',
   semi: true,
-  singleQuote: true,
   tabWidth: 2,
+  endOfLine: 'lf',
+  printWidth: 100,
+  singleQuote: true,
   trailingComma: 'es5',
-  printWidth: 120,
-  importOrder: [
-    '^node:$',
-    '',
-    '^(react/(.*)$)|^(react$)',
-    '^(next/(.*)$)|^(next$)',
-    '<THIRD_PARTY_MODULES>',
-    '',
-    '^@/types$',
-    '^@/types/(.*)$',
-    '^@/config$',
-    '^@/config/(.*)$',
-    '^@/paths$',
-    '^@/data/(.*)$',
-    '^@/lib/(.*)$',
-    '^@/actions/(.*)$',
-    '^@/contexts/(.*)$',
-    '^@/hooks/(.*)$',
-    '^@/components/(.*)$',
-    '^@/styles/(.*)$',
-    '',
-    '^[./]',
-  ],
-  plugins: ['@ianvs/prettier-plugin-sort-imports'],
 };
 
 export default config;
