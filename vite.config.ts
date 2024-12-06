@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 
 // ----------------------------------------------------------------------
 
-const PORT = 3039;
+const PORT = 4000;
 
 export default defineConfig({
   plugins: [
@@ -34,6 +34,16 @@ export default defineConfig({
       },
     ],
   },
-  server: { port: PORT, host: true },
+  server: {
+    port: PORT,
+    host: true,
+    proxy: {
+      '/apis': {
+        target: 'http://localhost:9000', // Proxy to backend server
+        // changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ''), // Rewrite path if necessary
+      },
+    },
+  },
   preview: { port: PORT, host: true },
 });
