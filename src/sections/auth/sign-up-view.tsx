@@ -10,8 +10,10 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-
-// Import validation utilities
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select,{ SelectChangeEvent } from '@mui/material/Select';
 import {
   validateEmail,
   validatePassword,
@@ -26,6 +28,7 @@ export function SignUpView() {
     email: '',
     mobilenumber: '',
     password: '',
+    chosegame:'',
     confirmPassword: '',
   });
 
@@ -43,6 +46,7 @@ export function SignUpView() {
     const { name, value } = e.target;
     setUserDetails((prev) => ({ ...prev, [name]: value }));
   };
+
 
   const validateFields = (): boolean => {
     const { name, email, mobilenumber, password, confirmPassword } = userDetails;
@@ -87,6 +91,7 @@ export function SignUpView() {
           name: '',
           email: '',
           mobilenumber: '',
+          chosegame:'',
           password: '',
           confirmPassword: '',
         });
@@ -108,14 +113,18 @@ export function SignUpView() {
     setSnackbar({ ...snackbar, open: false });
   };
 
+
+  const handleDropdownChange = (e: SelectChangeEvent<string>) => {
+    setUserDetails((prev) => ({ ...prev, chosegame: e.target.value }));
+  };
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
         <Typography variant="h5">Sign Up</Typography>
         {/* <Typography variant="body2" color="text.secondary">
-          Don’t have an account?
-          <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-            Get started
+          Already registered?
+          <Link variant="subtitle2" sx={{ ml: 0.5 }} href="/sign-in">
+          Sign In
           </Link>
         </Typography> */}
       </Box>
@@ -164,6 +173,20 @@ export function SignUpView() {
           helperText={snackbar.message === 'Mobile number must be 10 digits.' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Mobile number')}
         />
+       <FormControl fullWidth sx={{ mb: 3 }}>
+          <InputLabel>Choose Game</InputLabel>
+          <Select
+            name="chosegame"
+            value={userDetails.chosegame}
+            onChange={handleDropdownChange}
+            label="Choose Game"
+          >
+            <MenuItem value="Scrabble">Scrabble</MenuItem>
+            <MenuItem value="Sudoku">Sudoku</MenuItem>
+            <MenuItem value="Chess">Chess</MenuItem>
+            {/* <MenuItem value="All">All</MenuItem> */}
+          </Select>
+        </FormControl>
         <TextField
           fullWidth
           name="password"

@@ -8,14 +8,14 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
-
 import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
+import logohdfc from '../../../public/assets/images/img/hdfc-bank-logo-png.png';
 
 // ----------------------------------------------------------------------
 
-export function SignInView() {
+export function RegView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -26,24 +26,40 @@ export function SignInView() {
 
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
+        <TextField
+        fullWidth
+        name="empcode"
+        label="Employee Code"
+        defaultValue=""
+        InputLabelProps={{ shrink: true }}
+        sx={{ mb: 3 }}
+      />
       <TextField
         fullWidth
         name="email"
-        label="Email address"
-        defaultValue="hello@gmail.com"
+        label="Personal Email ID"
+        defaultValue=""
+        InputLabelProps={{ shrink: true }}
+        sx={{ mb: 3 }}
+      />
+ <TextField
+        fullWidth
+        name="mobile"
+        label="Personal Mobile Number"
+        defaultValue=""
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
 
-      <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
+      {/* <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
         Forgot password?
-      </Link>
+      </Link> */}
 
       <TextField
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        defaultValue=""
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
@@ -66,7 +82,7 @@ export function SignInView() {
         variant="contained"
         onClick={handleSignIn}
       >
-        Sign in
+      Register
       </LoadingButton>
     </Box>
   );
@@ -74,12 +90,16 @@ export function SignInView() {
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
-        <Typography variant="h5">Sign in</Typography>
+      {/* <img src={logohdfc} alt="HDFC" 
+       style={{ width: '200px',  objectFit: 'cover' }} 
+      /> */}
+
+        <Typography variant="h5">Register</Typography>
         <Typography variant="body2" color="text.secondary">
-          Don’t have an account?
-          <Link variant="subtitle2" sx={{ ml: 0.5 }} href="/register">
-            Sign Up
-          </Link>
+          {/* Don’t have an account?
+          <Link variant="subtitle2" sx={{ ml: 0.5 }}>
+            Get started
+          </Link> */}
         </Typography>
       </Box>
 

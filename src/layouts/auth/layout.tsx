@@ -50,16 +50,16 @@ export function AuthLayout({ sx, children, header }: AuthLayoutProps) {
               </Alert>
             ),
             leftArea: <Logo />,
-            rightArea: (
-              <Link
-                component={RouterLink}
-                href="#"
-                color="inherit"
-                sx={{ typography: 'subtitle2' }}
-              >
-                Need help?
-              </Link>
-            ),
+            // rightArea: (
+            //   <Link
+            //     component={RouterLink}
+            //     href="#"
+            //     color="inherit"
+            //     sx={{ typography: 'subtitle2' }}
+            //   >
+            //     Need help?
+            //   </Link>
+            // ),
           }}
         />
       }
@@ -77,13 +77,13 @@ export function AuthLayout({ sx, children, header }: AuthLayoutProps) {
           height: 1,
           zIndex: -1,
           content: "''",
-          opacity: 0.24,
+          // opacity: 0.24,
           position: 'fixed',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
-          backgroundImage: `url(/assets/background/overlay.jpg)`,
-          [stylesMode.dark]: { opacity: 0.08 },
+          backgroundImage: `url(/assets/background/bg.jpg)`,
+          // [stylesMode.dark]: { opacity: 0.08 },
         },
         ...sx,
       }}
