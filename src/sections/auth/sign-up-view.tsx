@@ -14,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select,{ SelectChangeEvent } from '@mui/material/Select';
+import analyt from '../../../public/assets/images/img/logo2.jpg';
 import {
   validateEmail,
   validatePassword,
@@ -120,6 +121,9 @@ export function SignUpView() {
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
+             <img src={analyt} alt="HDFC" 
+       style={{ width: '200px',  objectFit: 'cover' }} 
+      />
         <Typography variant="h5">Sign Up</Typography>
         {/* <Typography variant="body2" color="text.secondary">
           Already registered?
