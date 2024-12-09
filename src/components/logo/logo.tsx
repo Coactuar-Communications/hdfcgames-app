@@ -9,6 +9,8 @@ import { RouterLink } from 'src/routes/components';
 
 import { logoClasses } from './classes';
 import logohdfc from '../../../public/assets/images/img/hdfc-bank-logo-png.png';
+import analyt from '../../../public/assets/images/img/logo2.jpg';
+
 // ----------------------------------------------------------------------
 
 export type LogoProps = BoxProps & {

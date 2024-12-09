@@ -14,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select,{ SelectChangeEvent } from '@mui/material/Select';
+import analyt from '../../../public/assets/images/img/logo2.jpg';
 import {
   validateEmail,
   validatePassword,
@@ -120,7 +121,10 @@ export function SignUpView() {
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
-        <Typography variant="h5">Sign Up</Typography>
+             <img src={analyt} alt="HDFC" 
+       style={{ width: '200px',  objectFit: 'cover' }} 
+      />
+        <Typography variant="h5">Register for Analytiq 5.0</Typography>
         {/* <Typography variant="body2" color="text.secondary">
           Already registered?
           <Link variant="subtitle2" sx={{ ml: 0.5 }} href="/sign-in">
@@ -131,8 +135,8 @@ export function SignUpView() {
       <Box display="flex" flexDirection="column" alignItems="flex-end">
       <TextField
           fullWidth
-          name="employecode"
-          label="Employecode"
+          name="employeecode"
+          label="Employee Code"
           InputLabelProps={{ shrink: true }}
           sx={{ mb: 3 }}
           value={userDetails.employecode}
@@ -154,7 +158,7 @@ export function SignUpView() {
         <TextField
           fullWidth
           name="email"
-          label="Email address"
+          label="Personal Email ID"
           InputLabelProps={{ shrink: true }}
           sx={{ mb: 3 }}
           value={userDetails.email}
@@ -229,17 +233,24 @@ export function SignUpView() {
           helperText={snackbar.message === 'Passwords do not match!' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Passwords do not match')}
         />
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          color="inherit"
-          variant="contained"
-          onClick={handleSignUp}
-          loading={isLoading}
-        >
-          Sign up
-        </LoadingButton>
+     <LoadingButton
+  fullWidth
+  size="large"
+  type="submit"
+  variant="contained"
+  onClick={handleSignUp}
+  loading={isLoading}
+  sx={{
+    background: '#004b8f',
+    color: '#fff',
+    '&:hover': {
+      background: '#032c51'
+    }
+  }}
+>
+  Register
+</LoadingButton>
+
       </Box>
 
       {/* Snackbar for success and error messages */}
