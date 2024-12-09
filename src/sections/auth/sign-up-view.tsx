@@ -121,8 +121,8 @@ export function SignUpView() {
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
-             <img src={analyt} alt="HDFC" 
-       style={{ width: '200px',  objectFit: 'cover' }} 
+             <img src={analyt} alt="HDFC"
+       style={{ width: '200px',  objectFit: 'cover' }}
       />
         <Typography variant="h5">Register for Analytiq 5.0</Typography>
         {/* <Typography variant="body2" color="text.secondary">
@@ -135,7 +135,7 @@ export function SignUpView() {
       <Box display="flex" flexDirection="column" alignItems="flex-end">
       <TextField
           fullWidth
-          name="employeecode"
+          name="employecode"
           label="Employee Code"
           InputLabelProps={{ shrink: true }}
           sx={{ mb: 3 }}
