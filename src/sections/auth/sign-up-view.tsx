@@ -61,10 +61,10 @@ export function SignUpView() {
       setSnackbar({ open: false, message: 'Invalid email format.', severity: 'error' });
       valid = false;
     }
-    if (!validateContacts(mobilenumber)) {
-      setSnackbar({ open: false, message: 'Mobile number must be 10 digits.', severity: 'error' });
-      valid = false;
-    }
+    // if (!validateContacts(mobilenumber)) {
+    //   setSnackbar({ open: false, message: 'Mobile number must be 10 digits.', severity: 'error' });
+    //   valid = false;
+    // }
     if (!validatePassword(password)) {
       setSnackbar({ open: false, message: 'Password must be at least 8 characters long and can include letters, numbers, and special characters.', severity: 'error' });
       valid = false;
