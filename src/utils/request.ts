@@ -39,8 +39,10 @@ async function postData(
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("USERTOKEN")}`,
+        
         },
       });
+      
       store.dispatch(hideLoader());
       return data;
     } catch (error: any) {

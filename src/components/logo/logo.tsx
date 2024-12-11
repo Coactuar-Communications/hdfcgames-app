@@ -42,7 +42,7 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(
         component="img"
         src={logohdfc}
         width="100%"
-        // height="100%"
+        height="100%"
       />
     );
 

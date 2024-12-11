@@ -39,6 +39,16 @@ export const navData = [
     icon: icon('ic-lock'),
   },
   {
+    title: 'Forgot Password',
+    path: '/forgot-pword',
+    icon: icon('ic-lock'),
+  },
+  {
+    title: 'Set New Password',
+    path: '/set-new-pword',
+    icon: icon('ic-lock'),
+  },
+  {
     title: 'Register',
     path: '/register',
     icon: icon('ic-lock'),
