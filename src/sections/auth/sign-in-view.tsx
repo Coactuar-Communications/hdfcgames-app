@@ -10,19 +10,66 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
-
 import { Iconify } from 'src/components/iconify';
-
-// ----------------------------------------------------------------------
+import { postData } from 'src/utils/request';
 
 export function SignInView() {
   const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userDetails, setUserDetails] = useState({
+    email: '',
+    password: '',
+  });
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: '' });
 
-  const handleSignIn = useCallback(() => {
-    router.push('/');
-  }, [router]);
+  const validateSignInFields = () => {
+    // Simple validation for empty email and password
+    if (!userDetails.email || !userDetails.password) {
+      setSnackbar({
+        open: true,
+        message: 'Please fill in both fields',
+        severity: 'error',
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateSignInFields()) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const { email, password } = userDetails;
+      const data = await postData('auth/login', { email, password });
+
+      if (data.isSuccess) {
+        const message = data?.msg ?? 'Sign-in successful!';
+        setUserDetails({
+          email: '',
+          password: '',
+        });
+        setSnackbar({ open: true, message, severity: 'success' });
+        localStorage.setItem('token', data.user.token);
+        router.push('/');
+      } else {
+        const errorMessage = data?.error ?? 'Invalid email or password. Please try again.';
+        setSnackbar({ open: true, message: errorMessage, severity: 'error' });
+      }
+    } catch (err) {
+      console.error('Error signing in:', err);
+      setSnackbar({
+        open: true,
+        message: 'An error occurred. Please try again later.',
+        severity: 'error',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
@@ -30,7 +77,8 @@ export function SignInView() {
         fullWidth
         name="email"
         label="Email address"
-        defaultValue="hello@gmail.com"
+        value={userDetails.email}
+        onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
@@ -43,7 +91,8 @@ export function SignInView() {
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        value={userDetails.password}
+        onChange={(e) => setUserDetails({ ...userDetails, password: e.target.value })}
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
@@ -65,6 +114,7 @@ export function SignInView() {
         color="inherit"
         variant="contained"
         onClick={handleSignIn}
+        loading={isLoading}
       >
         Sign in
       </LoadingButton>
