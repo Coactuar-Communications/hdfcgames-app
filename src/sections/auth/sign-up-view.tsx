@@ -147,7 +147,7 @@ export function SignUpView() {
         <TextField
           fullWidth
           name="name"
-          label="Username"
+          label="Employee name"
           InputLabelProps={{ shrink: true }}
           sx={{ mb: 3 }}
           value={userDetails.name}
@@ -166,7 +166,7 @@ export function SignUpView() {
           helperText={snackbar.message === 'Invalid email format.' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Invalid email format')}
         />
-        <TextField
+        {/* <TextField
           fullWidth
           name="mobilenumber"
           label="Mobile Number"
@@ -176,7 +176,7 @@ export function SignUpView() {
           onChange={handleChange}
           helperText={snackbar.message === 'Mobile number must be 10 digits.' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Mobile number')}
-        />
+        /> */}
        <FormControl fullWidth sx={{ mb: 3 }}>
           <InputLabel>Choose Game</InputLabel>
           <Select
@@ -233,7 +233,7 @@ export function SignUpView() {
           helperText={snackbar.message === 'Passwords do not match!' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Passwords do not match')}
         />
-     <LoadingButton
+  <LoadingButton
   fullWidth
   size="large"
   type="submit"
@@ -250,9 +250,7 @@ export function SignUpView() {
 >
   Register
 </LoadingButton>
-
       </Box>
-
       {/* Snackbar for success and error messages */}
       <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={snackbar.severity} variant="filled" sx={{ width: '100%' }}>
