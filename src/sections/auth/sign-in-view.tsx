@@ -53,7 +53,8 @@ export function SignInView() {
           password: '',
         });
         setSnackbar({ open: true, message, severity: 'success' });
-        localStorage.setItem('token', data.user.token);
+        localStorage.setItem('authToken', data.user.token);
+        localStorage.setItem("userId",data.user.id);
         router.push('/');
       } else {
         const errorMessage = data?.error ?? 'Invalid email or password. Please try again.';

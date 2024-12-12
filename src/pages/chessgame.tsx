@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import GameEmbed  from 'src/sections/auth/GameEmbed';
+import ChessEmbed  from 'src/sections/auth/ChessEmbed';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ export default function Page() {
         <title> {`Register - ${CONFIG.appName}`}</title>
       </Helmet>
 
-      <GameEmbed />
+      <ChessEmbed />
     </>
   );
 }

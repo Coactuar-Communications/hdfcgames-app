@@ -19,6 +19,7 @@ export const Register = lazy(() => import('src/pages/register'));
 export const SignUpPage = lazy(() => import('src/pages/sign-up'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
+export const Chessgame =lazy(()=>import('src/pages/chessgame'));
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +67,24 @@ export function Router() {
 
         <AuthLayout>
           <SignUpPage />
+        </AuthLayout>
+      ),
+    },
+    {
+      path: 'games',
+      element: (
+
+        <AuthLayout>
+          <Register />
+        </AuthLayout>
+      ),
+    },
+    {
+      path: 'chess',
+      element: (
+
+        <AuthLayout>
+          <Chessgame />
         </AuthLayout>
       ),
     },
