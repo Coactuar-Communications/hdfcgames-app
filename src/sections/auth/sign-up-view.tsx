@@ -14,6 +14,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select,{ SelectChangeEvent } from '@mui/material/Select';
+
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import analyt from '../../../public/assets/images/img/logo2.jpg';
 import {
   validateEmail,
@@ -36,7 +39,8 @@ export function SignUpView() {
   const [showPassword, setShowPassword] = useState(false);
   const [confrmPassword, setconfrmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [acceptDisclaimer, setAcceptDisclaimer] = useState(false);
+  const [showDisclaimerError, setShowDisclaimerError] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
@@ -46,6 +50,10 @@ export function SignUpView() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserDetails((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAcceptDisclaimer(e.target.checked);
+    setShowDisclaimerError(!e.target.checked);
   };
 
 
@@ -73,6 +81,11 @@ export function SignUpView() {
       setSnackbar({ open: false, message: 'Passwords do not match!', severity: 'error' });
       valid = false;
     }
+    if (!acceptDisclaimer) {
+      setShowDisclaimerError(true);
+      valid = false;
+    }
+
     return valid;
   };
 
@@ -132,7 +145,7 @@ export function SignUpView() {
           </Link>
         </Typography> */}
       </Box>
-      <Box display="flex" flexDirection="column" alignItems="flex-end">
+      <Box display="flex" flexDirection="column" alignItems="center" >
       <TextField
           fullWidth
           name="employecode"
@@ -147,7 +160,7 @@ export function SignUpView() {
         <TextField
           fullWidth
           name="name"
-          label="Username"
+          label="Employee name"
           InputLabelProps={{ shrink: true }}
           sx={{ mb: 3 }}
           value={userDetails.name}
@@ -166,7 +179,7 @@ export function SignUpView() {
           helperText={snackbar.message === 'Invalid email format.' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Invalid email format')}
         />
-        <TextField
+        {/* <TextField
           fullWidth
           name="mobilenumber"
           label="Mobile Number"
@@ -176,7 +189,7 @@ export function SignUpView() {
           onChange={handleChange}
           helperText={snackbar.message === 'Mobile number must be 10 digits.' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Mobile number')}
-        />
+        /> */}
        <FormControl fullWidth sx={{ mb: 3 }}>
           <InputLabel>Choose Game</InputLabel>
           <Select
@@ -233,7 +246,9 @@ export function SignUpView() {
           helperText={snackbar.message === 'Passwords do not match!' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Passwords do not match')}
         />
-     <LoadingButton
+        <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={acceptDisclaimer} onChange={handleCheckboxChange}    />} label="I agree to the terms and conditions" />
+        {showDisclaimerError && <Typography sx={{ mb: 2 }} color="error">Please accept the terms and conditions</Typography>}
+  <LoadingButton
   fullWidth
   size="large"
   type="submit"
@@ -250,9 +265,7 @@ export function SignUpView() {
 >
   Register
 </LoadingButton>
-
       </Box>
-
       {/* Snackbar for success and error messages */}
       <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={snackbar.severity} variant="filled" sx={{ width: '100%' }}>

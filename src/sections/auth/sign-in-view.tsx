@@ -84,7 +84,7 @@ export function SignInView() {
         sx={{ mb: 3 }}
       />
 
-      <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
+      <Link variant="body2" color="inherit" href="/forgot-pword" sx={{ mb: 1.5 }}>
         Forgot password?
       </Link>
 
@@ -128,14 +128,14 @@ export function SignInView() {
         <Typography variant="h5">Sign in</Typography>
         <Typography variant="body2" color="text.secondary">
           Don’t have an account?
-          <Link variant="subtitle2" sx={{ ml: 0.5 }} href="/register">
+          <Link variant="subtitle2" sx={{ ml: 0.5 }} href="/sign-up">
             Sign Up
           </Link>
         </Typography>
       </Box>
 
       {renderForm}
-
+{/* 
       <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
         <Typography
           variant="overline"
@@ -143,9 +143,9 @@ export function SignInView() {
         >
           OR
         </Typography>
-      </Divider>
+      </Divider> */}
 
-      <Box gap={1} display="flex" justifyContent="center">
+      {/* <Box gap={1} display="flex" justifyContent="center">
         <IconButton color="inherit">
           <Iconify icon="logos:google-icon" />
         </IconButton>
@@ -155,7 +155,7 @@ export function SignInView() {
         <IconButton color="inherit">
           <Iconify icon="ri:twitter-x-fill" />
         </IconButton>
-      </Box>
+      </Box> */}
     </>
   );
 }
