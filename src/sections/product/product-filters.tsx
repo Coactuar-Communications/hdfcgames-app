@@ -168,7 +168,7 @@ export function ProductFilters({
 
   return (
     <>
-      <Button
+      {/* <Button
         disableRipple
         color="inherit"
         endIcon={
@@ -179,7 +179,7 @@ export function ProductFilters({
         onClick={onOpenFilter}
       >
         Filters
-      </Button>
+      </Button> */}
 
       <Drawer
         anchor="right"

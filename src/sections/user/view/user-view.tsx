@@ -42,7 +42,7 @@ export function UserView() {
   return (
     <DashboardContent>
       <Box display="flex" alignItems="center" mb={5}>
-        <Typography variant="h4" flexGrow={1}>
+        <Typography variant="h4" flexGrow={1} color="#ffffff">
           Users
         </Typography>
         <Button

@@ -2,8 +2,8 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-// import {ChessEmbed} from 'src/sections/games/view';
-import {ChessEmbed} from 'src/sections/games/view/ChessEmbed';
+import { SudokuEmbed } from 'src/sections/games/view';
+
 // ----------------------------------------------------------------------
 
 export default function Page() {
@@ -13,7 +13,7 @@ export default function Page() {
         <title> {`Games - ${CONFIG.appName}`}</title>
       </Helmet>
 
-      <ChessEmbed />
+      <SudokuEmbed />
     </>
   );
 }

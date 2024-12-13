@@ -31,7 +31,7 @@ export function ProductSort({ options, sortBy, onSort, sx, ...other }: ProductSo
 
   return (
     <>
-      <Button
+      {/* <Button
         disableRipple
         color="inherit"
         onClick={handleOpenPopover}
@@ -43,7 +43,7 @@ export function ProductSort({ options, sortBy, onSort, sx, ...other }: ProductSo
         <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
           {options.find((option) => option.value === sortBy)?.label}
         </Typography>
-      </Button>
+      </Button> */}
 
       <Popover
         open={!!openPopover}

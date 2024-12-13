@@ -12,6 +12,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 import { Iconify } from 'src/components/iconify';
 import { postData } from 'src/utils/request';
+import analyt from '../../../public/assets/images/img/logo2.jpg';
 
 export function SignInView() {
   const router = useRouter();
@@ -55,6 +56,8 @@ export function SignInView() {
         setSnackbar({ open: true, message, severity: 'success' });
         localStorage.setItem('authToken', data.user.token);
         localStorage.setItem("userId",data.user.id);
+        localStorage.setItem("choosegame",data.user.choosegame);
+
         router.push('/');
       } else {
         const errorMessage = data?.error ?? 'Invalid email or password. Please try again.';
@@ -116,6 +119,13 @@ export function SignInView() {
         variant="contained"
         onClick={handleSignIn}
         loading={isLoading}
+        sx={{
+          background: '#004b8f',
+          color: '#fff',
+          '&:hover': {
+            background: '#032c51'
+          }
+        }}
       >
         Sign in
       </LoadingButton>
@@ -125,6 +135,8 @@ export function SignInView() {
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
+      <img src={analyt} alt="HDFC"
+       style={{ width: '200px',  objectFit: 'cover' }} />
         <Typography variant="h5">Sign in</Typography>
         <Typography variant="body2" color="text.secondary">
           Don’t have an account?

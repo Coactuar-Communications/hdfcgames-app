@@ -105,10 +105,11 @@ export function SignUpView() {
           name: '',
           email: '',
           mobilenumber: '',
-          chosegame:'',
+          chosegame: '',
           password: '',
           confirmPassword: '',
         });
+        setAcceptDisclaimer(false); // Uncheck the checkbox
         setSnackbar({ open: true, message, severity: 'success' });
       } else {
         const errorMessage = data?.error ?? 'User already exists! Please login with your credentials.';
@@ -121,7 +122,7 @@ export function SignUpView() {
       setIsLoading(false);
     }
   };
-
+  
 
   const handleSnackbarClose = () => {
     setSnackbar({ ...snackbar, open: false });
@@ -246,7 +247,7 @@ export function SignUpView() {
           helperText={snackbar.message === 'Passwords do not match!' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Passwords do not match')}
         />
-        <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={acceptDisclaimer} onChange={handleCheckboxChange}    />} label="I agree to the terms and conditions" />
+        <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={acceptDisclaimer} onChange={handleCheckboxChange}    />} label="I agree to share the above information for this engagement activity." />
         {showDisclaimerError && <Typography sx={{ mb: 2 }} color="error">Please accept the terms and conditions</Typography>}
   <LoadingButton
   fullWidth

@@ -19,8 +19,12 @@ export const ForgotPassword = lazy(() => import('src/pages/forgot-pword'));
 export const SetNewPword = lazy(() => import('src/pages/set-new-pword'));
 export const SignUpPage = lazy(() => import('src/pages/sign-up'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
+export const ChessEmbed = lazy(() => import('src/pages/chessgame'));
+export const SudokuEmbed = lazy(() => import('src/pages/sudoku'));
+
+
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
-export const Chessgame =lazy(()=>import('src/pages/chessgame'));
+// export const Chessgame =lazy(()=>import('src/pages/chessgame'));
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +56,10 @@ export function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'chessgame', element:<ChessEmbed /> },
+        { path: 'sudoku', element:  <SudokuEmbed />},
+
+
       ],
     },
     {
@@ -98,15 +106,15 @@ export function Router() {
         </AuthLayout>
       ),
     },
-    {
-      path: 'chess',
-      element: (
+    // {
+    //   path: 'chess',
+    //   element: (
 
-        <AuthLayout>
-          <Chessgame />
-        </AuthLayout>
-      ),
-    },
+    //     <AuthLayout>
+    //       <Chessgame />
+    //     </AuthLayout>
+    //   ),
+    // },
     {
       path: '404',
       element: <Page404 />,

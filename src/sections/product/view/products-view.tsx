@@ -86,11 +86,11 @@ export function ProductsView() {
 
   return (
     <DashboardContent>
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Products
+      <Typography variant="h4" sx={{ mb: 5 }} color="#ffffff">
+        Games
       </Typography>
 
-      <CartIcon totalItems={8} />
+      {/* <CartIcon totalItems={8} /> */}
 
       <Box
         display="flex"

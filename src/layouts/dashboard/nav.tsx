@@ -1,7 +1,8 @@
 import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
 
-import { useEffect } from 'react';
-
+import React,{ useState, useEffect,forwardRef } from 'react';
+// import React, { forwardRef } from 'react';
+// import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import { useTheme } from '@mui/material/styles';
@@ -22,14 +23,19 @@ import { WorkspacesPopover } from '../components/workspaces-popover';
 import type { WorkspacesPopoverProps } from '../components/workspaces-popover';
 
 // ----------------------------------------------------------------------
+// const RouterLinkWithRef = React.forwardRef<HTMLAnchorElement, any>((props, ref) => (
+//   <RouterLink ref={ref} {...props} />
+// ));
+export type NavItem = {
+  path: string;
+  title: string;
+  icon: React.ReactNode;
+  info?: React.ReactNode;
+  children?: NavItem[]; // For dropdowns
+};
 
 export type NavContentProps = {
-  data: {
-    path: string;
-    title: string;
-    icon: React.ReactNode;
-    info?: React.ReactNode;
-  }[];
+  data: NavItem[];
   slots?: {
     topArea?: React.ReactNode;
     bottomArea?: React.ReactNode;
@@ -61,7 +67,7 @@ export function NavDesktop({
         bgcolor: 'var(--layout-nav-bg)',
         zIndex: 'var(--layout-nav-zIndex)',
         width: 'var(--layout-nav-vertical-width)',
-        borderRight: `1px solid var(--layout-nav-border-color, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.12)})`,
+        borderRight: `1px solid ${theme.palette.divider}`,
         [theme.breakpoints.up(layoutQuery)]: {
           display: 'flex',
         },
@@ -75,6 +81,10 @@ export function NavDesktop({
 
 // ----------------------------------------------------------------------
 
+
+
+// ----------------------------------------------------------------------
+
 export function NavMobile({
   sx,
   data,
@@ -83,14 +93,12 @@ export function NavMobile({
   onClose,
   workspaces,
 }: NavContentProps & { open: boolean; onClose: () => void }) {
-  const pathname = usePathname();
-
   useEffect(() => {
     if (open) {
       onClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [usePathname()]);
 
   return (
     <Drawer
@@ -116,6 +124,13 @@ export function NavMobile({
 
 export function NavContent({ data, slots, workspaces, sx }: NavContentProps) {
   const pathname = usePathname();
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const RouterLinkWithRef = forwardRef<HTMLAnchorElement, any>((props, ref) => (
+    <RouterLink ref={ref} {...props} />
+  ));
+  const toggleDropdown = (title: string) => {
+    setOpenDropdown((prev) => (prev === title ? null : title));
+  };
 
   return (
     <>
@@ -126,57 +141,71 @@ export function NavContent({ data, slots, workspaces, sx }: NavContentProps) {
       <WorkspacesPopover data={workspaces} sx={{ my: 2 }} />
 
       <Scrollbar fillContent>
-        <Box component="nav" display="flex" flex="1 1 auto" flexDirection="column" sx={sx}>
-          <Box component="ul" gap={0.5} display="flex" flexDirection="column">
-            {data.map((item) => {
-              const isActived = item.path === pathname;
+      <Box component="ul" gap={0.5} display="flex" flexDirection="column">
+      {data.map((item) => (
+        <Box key={item.title} component="li">
+          <ListItem disableGutters disablePadding>
+            <ListItemButton
+              disableGutters
+              component={RouterLinkWithRef}
+              href={!item.children ? item.path || '' : undefined} // Only link if no dropdown
+              sx={{
+                pl: 2,
+                py: 1,
+                gap: 2,
+                pr: 1.5,
+                borderRadius: 0.75,
+                typography: 'body2',
+                fontWeight: 'fontWeightMedium',
+                color: 'var(--layout-nav-item-color)',
+                minHeight: 'var(--layout-nav-item-height)',
+              }}
+            >
+              <Box component="span" sx={{ width: 24, height: 24 }}>
+                {item.icon}
+              </Box>
+              <Box component="span" flexGrow={1}>
+                {item.title}
+              </Box>
+            </ListItemButton>
+          </ListItem>
 
-              return (
-                <ListItem disableGutters disablePadding key={item.title}>
+          {item.children && (
+            <Box component="ul" sx={{ pl: 4 }}>
+              {item.children.map((child) => (
+                <ListItem disableGutters disablePadding key={child.title}>
                   <ListItemButton
                     disableGutters
-                    component={RouterLink}
-                    href={item.path}
+                    component={RouterLinkWithRef}
+                    href={child.path || ''}
                     sx={{
                       pl: 2,
                       py: 1,
                       gap: 2,
                       pr: 1.5,
-                      borderRadius: 0.75,
                       typography: 'body2',
-                      fontWeight: 'fontWeightMedium',
                       color: 'var(--layout-nav-item-color)',
-                      minHeight: 'var(--layout-nav-item-height)',
-                      ...(isActived && {
-                        fontWeight: 'fontWeightSemiBold',
-                        bgcolor: 'var(--layout-nav-item-active-bg)',
-                        color: 'var(--layout-nav-item-active-color)',
-                        '&:hover': {
-                          bgcolor: 'var(--layout-nav-item-hover-bg)',
-                        },
-                      }),
                     }}
                   >
                     <Box component="span" sx={{ width: 24, height: 24 }}>
-                      {item.icon}
+                      {child.icon}
                     </Box>
-
                     <Box component="span" flexGrow={1}>
-                      {item.title}
+                      {child.title}
                     </Box>
-
-                    {item.info && item.info}
                   </ListItemButton>
                 </ListItem>
-              );
-            })}
-          </Box>
+              ))}
+            </Box>
+          )}
         </Box>
+      ))}
+    </Box>
+
+        {/* </Box> */}
       </Scrollbar>
 
       {slots?.bottomArea}
-
-      {/* <NavUpgrade /> */}
     </>
   );
 }
