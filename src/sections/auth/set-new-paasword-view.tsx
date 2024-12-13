@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -11,7 +11,6 @@ import { postData } from 'src/utils/request';
 import { validatePassword } from '../../utils/validation';
 import analyt from '../../../public/assets/images/img/logo2.jpg';
 
-
 // ----------------------------------------------------------------------
 
 export function SetNewPwordView() {
@@ -19,6 +18,7 @@ export function SetNewPwordView() {
     password: '',
     confirmPassword: '',
   });
+  const [email, setEmail] = useState<string>(''); // Store email here
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -30,6 +30,14 @@ export function SetNewPwordView() {
   const [showPassword, setShowPassword] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Extract email from URL query parameters
+  useEffect(() => {
+    const queryEmail = new URLSearchParams(window.location.search).get('email');
+    if (queryEmail) {
+      setEmail(queryEmail); // Set email from URL
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -59,34 +67,27 @@ export function SetNewPwordView() {
 
   const handleSubmitNewPword = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(' handleSubmitNewPword triggered'); // Log to check if this function runs
+    console.log('handleSubmitNewPword triggered'); // Log to check if this function runs
 
     if (!validateFields()) {
-      console.log(' Validation failed');
+      console.log('Validation failed');
       return;
     }
 
-    console.log(' Validation passed, attempting to update password...');
+    console.log('Validation passed, attempting to update password...');
     setIsLoading(true);
 
     try {
       const { password } = userDetails;
-      const token = localStorage.getItem('USERTOKEN'); // Get token from local storage
-      console.log(' Token from localStorage:', token); // Log token for debugging
 
-      if (!token) {
-        console.error(' Token not found in localStorage');
-        setSnackbar({ open: true, message: 'Token not found. Please log in again.', severity: 'error' });
-        return;
-      }
-
+      // Add email to the request body
       const response = await postData(
-        'auth/updatePassword', 
-        { newPassword: password }, 
+        'auth/updatePassword',
+        { newPassword: password, email },
         'POST'
       );
 
-      console.log('📡 API Response:', response); // Log API response
+      console.log('📡 API Response:', response);
 
       if (response.isSuccess) {
         const message = response?.msg ?? 'Password changed successfully!';
@@ -94,17 +95,17 @@ export function SetNewPwordView() {
         setUserDetails({ password: '', confirmPassword: '' });
 
         if (response?.user?.token) {
-          localStorage.setItem('USERTOKEN', response.user.token); 
+          localStorage.setItem('USERTOKEN', response.user.token);
         }
 
         router.push('/login');
       } else {
         const errorMessage = response?.msg ?? 'Failed to update password. Please try again.';
-        console.error(' API Error:', errorMessage);
+        console.error('API Error:', errorMessage);
         setSnackbar({ open: true, message: errorMessage, severity: 'error' });
       }
     } catch (err) {
-      console.error('S Error updating password:', err);
+      console.error('Error updating password:', err);
       setSnackbar({ open: true, message: 'An error occurred. Please try again later.', severity: 'error' });
     } finally {
       setIsLoading(false);

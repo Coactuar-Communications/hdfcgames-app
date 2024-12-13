@@ -13,7 +13,7 @@ async function getData(url: string, otherData: AxiosRequestConfig = {}): Promise
     store.dispatch(showLoader());
     const { data } = await axios.get(`http://localhost:9000/apis/${url}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("USERTOKEN")}`,
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
       ...otherData,
     });
@@ -39,10 +39,10 @@ async function postData(
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("USERTOKEN")}`,
-        
+
         },
       });
-      
+
       store.dispatch(hideLoader());
       return data;
     } catch (error: any) {

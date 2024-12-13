@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert'; // Import Alert component
+import Alert from '@mui/material/Alert';
 import { useRouter } from 'src/routes/hooks';
 import { postData } from 'src/utils/request';
 import analyt from '../../../public/assets/images/img/logo2.jpg';
@@ -13,19 +13,19 @@ import analyt from '../../../public/assets/images/img/logo2.jpg';
 
 export function ForgotPasswordView() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false); // Loading state for button
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'error' | 'info' | 'success' | 'warning' }>({
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: 'error' | 'info' | 'success' | 'warning';
+  }>({
     open: false,
     message: '',
-    severity: 'info', // Default severity
+    severity: 'info',
   });
   const [email, setEmail] = useState('');
-
-  // Handler to check if the email exists in the database
   const handleCheckEmail = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault(); // Prevent default form submission
-
-    // Validation before proceeding
+    e.preventDefault();
     if (!email) {
       setSnackbar({
         open: true,
@@ -38,15 +38,13 @@ export function ForgotPasswordView() {
     setIsLoading(true);
     try {
       const data = await postData('auth/validateEmail', { email });
-      // Call API to check if the email exists
-
       if (data.isSuccess) {
         setSnackbar({
           open: true,
-          message: 'Email found. Redirecting to set new password...',
+          message: 'Email found. Please check email to reset password',
           severity: 'success',
         });
-        router.push('/set-new-pword'); // Redirect to set new password page
+        setEmail('');
       } else {
         setSnackbar({
           open: true,
@@ -62,13 +60,17 @@ export function ForgotPasswordView() {
         severity: 'error',
       });
     } finally {
-      setIsLoading(false); // Reset loading state
+      setIsLoading(false);
     }
   };
-
-  // Rendering the form with the email input
   const renderForm = (
-    <Box component="form" onSubmit={(e) => e.preventDefault()} display="flex" flexDirection="column" alignItems="flex-end">
+    <Box
+      component="form"
+      onSubmit={(e) => e.preventDefault()}
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-end"
+    >
       <TextField
         fullWidth
         name="email"
@@ -86,13 +88,6 @@ export function ForgotPasswordView() {
         variant="contained"
         onClick={handleCheckEmail}
         loading={isLoading} // Show loading state while request is in progress
-        sx={{
-          background: '#004b8f',
-          color: '#fff',
-          '&:hover': {
-            background: '#032c51'
-          }
-        }}
       >
         Verify Email
       </LoadingButton>
@@ -108,14 +103,15 @@ export function ForgotPasswordView() {
       </Box>
 
       {renderForm}
-
-      {/* Snackbar for feedback */}
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={6000} // Automatically hide after 6 seconds
+        autoHideDuration={6000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
       >
-        <Alert severity={snackbar.severity} onClose={() => setSnackbar({ ...snackbar, open: false })}>
+        <Alert
+          severity={snackbar.severity}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

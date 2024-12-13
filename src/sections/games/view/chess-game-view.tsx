@@ -8,9 +8,9 @@ export function ChessEmbed()  {
         <Typography variant="h4" sx={{ mb: 5 }} color="#ffffff">
           Games
         </Typography>
-  
+
         {/* <CartIcon totalItems={8} /> */}
-  
+
         <Box
           display="flex"
           alignItems="center"
@@ -20,7 +20,7 @@ export function ChessEmbed()  {
         >
     <div style={{ position: 'relative', width: '100%', height: '600px', backgroundColor: 'blue' }}>
       <iframe
-        src="/games/chess/index.html"
+        src="/practicegames/chess/index.html"
         width="100%"
         height="100%"
         style={{ border: 'none' }}
@@ -31,6 +31,5 @@ export function ChessEmbed()  {
     </Box>
     </DashboardContent>
   )};
-  
+
 //   export default ChessEmbed;
-  

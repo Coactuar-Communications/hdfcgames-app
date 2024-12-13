@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getData } from 'src/utils/request';
 import { SvgColor } from 'src/components/svg-color';
 
 const icon = (name: string) => (
@@ -8,13 +9,22 @@ const icon = (name: string) => (
 export function Navbar() {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
-  // Load the selected game from localStorage when the component mounts
   useEffect(() => {
-    const savedGame = localStorage.getItem('chosegame'); // Get game from localStorage
-    if (savedGame) {
-      setSelectedGame(savedGame.toLowerCase()); // Convert to lowercase for consistency
-    }
+    const fetchUserData = async () => {
+      const id = localStorage.getItem("userId");
+      const response = await getData(`auth/${id}`);
+      if (response.isSuccess && response.user) {
+        const savedGame = response.user.choosegame;
+        // console.log(savedGame);
+        // alert(savedGame);
+        if (savedGame) {
+          setSelectedGame(savedGame.toLowerCase());
+        }
+      }
+    };
+    fetchUserData();
   }, []);
+
 
   // Generate dynamic paths for Practice and Live Games based on the selected game
   const navData = [
@@ -36,12 +46,12 @@ export function Navbar() {
         ? [
             {
               title: `Practice ${selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game`,
-              path: `/${selectedGame}-game`, // Example: /sudoku-game, /scrabble-game
+              path: `/${selectedGame}-game`,
               icon: icon('gamings'),
             },
             {
               title: `Live ${selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game`,
-              path: `/${selectedGame}-live-game`, // Example: /sudoku-live-game, /scrabble-live-game
+              path: `/${selectedGame}-live-game`,
               icon: icon('gamings'),
             },
           ]

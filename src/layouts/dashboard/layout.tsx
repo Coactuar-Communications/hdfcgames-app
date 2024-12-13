@@ -5,7 +5,7 @@ import { useState,useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import { useTheme } from '@mui/material/styles';
-
+import { getData } from 'src/utils/request';
 import { _langs, _notifications } from 'src/_mock';
 
 import { Iconify } from 'src/components/iconify';
@@ -38,11 +38,26 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
   // Load the selected game from localStorage when the component mounts
+  // useEffect(() => {
+  //   const savedGame = localStorage.getItem('chosegame'); // Get game from localStorage
+  //   if (savedGame) {
+  //     setSelectedGame(savedGame.toLowerCase()); // Convert to lowercase for consistency
+  //   }
+  // }, []);
   useEffect(() => {
-    const savedGame = localStorage.getItem('chosegame'); // Get game from localStorage
-    if (savedGame) {
-      setSelectedGame(savedGame.toLowerCase()); // Convert to lowercase for consistency
-    }
+    const fetchUserData = async () => {
+      const id = localStorage.getItem("userId");
+      const response = await getData(`auth/${id}`);
+      if (response.isSuccess && response.user) {
+        const savedGame = response.user.choosegame;
+        // console.log(savedGame);
+        // alert(savedGame);
+        if (savedGame) {
+          setSelectedGame(savedGame.toLowerCase());
+        }
+      }
+    };
+    fetchUserData();
   }, []);
 const icon = (name: string) => (
   <img src={`/assets/icons/navbar/${name}.svg`} alt={`${name} icon`} style={{ width: '100%', height: '100%' }} />

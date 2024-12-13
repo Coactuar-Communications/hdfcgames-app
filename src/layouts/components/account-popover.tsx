@@ -11,7 +11,7 @@ import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
-
+import { postData } from 'src/utils/request';
 import { useRouter, usePathname } from 'src/routes/hooks';
 
 import { _myAccount } from 'src/_mock';
@@ -49,6 +49,32 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     },
     [handleClosePopover, router]
   );
+  const handleLogout = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        return;
+      }
+
+      const response = await postData(
+        'auth/logout',
+        {  userId },
+        'POST'
+      );
+
+      if (response.isSuccess) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userId');
+        router.push('/sign-in');
+      } else {
+        console.error('Logout failed:', response.msg);
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
 
   return (
     <>
@@ -129,7 +155,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth color="error" size="medium" variant="text">
+        <Button fullWidth color="error" size="medium" variant="text" onClick={handleLogout}>
             Logout
           </Button>
         </Box>

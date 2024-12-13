@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-
+import { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
@@ -8,12 +8,10 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-
-import { _users } from 'src/_mock';
-import { DashboardContent } from 'src/layouts/dashboard';
-
-import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
+import { getData } from 'src/utils/request';
+import { DashboardContent } from 'src/layouts/dashboard';
+import { Iconify } from 'src/components/iconify';
 
 import { TableNoData } from '../table-no-data';
 import { UserTableRow } from '../user-table-row';
@@ -24,15 +22,50 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 
 import type { UserProps } from '../user-table-row';
 
+
 // ----------------------------------------------------------------------
 
 export function UserView() {
   const table = useTable();
-
   const [filterName, setFilterName] = useState('');
+  const [leaderboardData, setLeaderboardData] = useState<UserProps[]>([]);
+  const [choosegame, setChoosegame] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const id = localStorage.getItem('userId');
+        const response = await getData(`auth/${id}`);
+        if (response.isSuccess && response.user) {
+          setChoosegame(response.user.choosegame); // Store the choosegame value
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
 
+    const fetchLeaderboard = async () => {
+      if (!choosegame) return;
+
+      try {
+        const endpoint =
+          choosegame === 'sudoku'
+            ? 'games/getsudukuleaderboard'
+            : 'games/getchessleaderboard';
+        const response = await getData(endpoint);
+
+        if (response && response.data) {
+          setLeaderboardData(response.data); // Set the leaderboard data
+        }
+      } catch (error) {
+        console.error('Error fetching leaderboard data:', error);
+      }
+    };
+
+    fetchUserData();
+    fetchLeaderboard();
+  }, [choosegame]);
   const dataFiltered: UserProps[] = applyFilter({
-    inputData: _users,
+    inputData: leaderboardData,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
@@ -50,7 +83,7 @@ export function UserView() {
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
-          New user
+          New Entry
         </Button>
       </Box>
 
@@ -70,21 +103,20 @@ export function UserView() {
               <UserTableHead
                 order={table.order}
                 orderBy={table.orderBy}
-                rowCount={_users.length}
+                rowCount={leaderboardData.length}
                 numSelected={table.selected.length}
                 onSort={table.onSort}
                 onSelectAllRows={(checked) =>
                   table.onSelectAllRows(
                     checked,
-                    _users.map((user) => user.id)
+                    leaderboardData.map((user) => user.id)
                   )
                 }
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
+                  { id: 'email', label: 'Email' },
+                  { id: 'score', label: 'Score', align: 'center' },
+                  { id: 'time', label: 'Time' },
                   { id: '' },
                 ]}
               />
@@ -105,7 +137,7 @@ export function UserView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _users.length)}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, leaderboardData.length)}
                 />
 
                 {notFound && <TableNoData searchQuery={filterName} />}
@@ -117,7 +149,7 @@ export function UserView() {
         <TablePagination
           component="div"
           page={table.page}
-          count={_users.length}
+          count={leaderboardData.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}

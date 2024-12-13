@@ -8,9 +8,9 @@ export function SudokuEmbed()  {
         <Typography variant="h4" sx={{ mb: 5 }} color="#ffffff">
           Games
         </Typography>
-  
+
         {/* <CartIcon totalItems={8} /> */}
-  
+
         <Box
           display="flex"
           alignItems="center"
@@ -20,7 +20,7 @@ export function SudokuEmbed()  {
         >
     <div style={{ position: 'relative', width: '100%', height: '500px' }}>
     <iframe
-      src="/games/sudoku/index.html"
+      src="/practicegames/sudoku/index.html"
       width="100%"
       height="100%"
       style={{ border: 'none' }}
@@ -31,6 +31,5 @@ export function SudokuEmbed()  {
     </Box>
     </DashboardContent>
   )};
-  
+
 //   export default ChessEmbed;
-  
