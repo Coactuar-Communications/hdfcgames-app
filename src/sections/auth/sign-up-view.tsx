@@ -14,6 +14,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select,{ SelectChangeEvent } from '@mui/material/Select';
+
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import analyt from '../../../public/assets/images/img/logo2.jpg';
 import {
   validateEmail,
@@ -36,7 +39,8 @@ export function SignUpView() {
   const [showPassword, setShowPassword] = useState(false);
   const [confrmPassword, setconfrmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [acceptDisclaimer, setAcceptDisclaimer] = useState(false);
+  const [showDisclaimerError, setShowDisclaimerError] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
@@ -46,6 +50,10 @@ export function SignUpView() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserDetails((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAcceptDisclaimer(e.target.checked);
+    setShowDisclaimerError(!e.target.checked);
   };
 
 
@@ -61,10 +69,10 @@ export function SignUpView() {
       setSnackbar({ open: false, message: 'Invalid email format.', severity: 'error' });
       valid = false;
     }
-    if (!validateContacts(mobilenumber)) {
-      setSnackbar({ open: false, message: 'Mobile number must be 10 digits.', severity: 'error' });
-      valid = false;
-    }
+    // if (!validateContacts(mobilenumber)) {
+    //   setSnackbar({ open: false, message: 'Mobile number must be 10 digits.', severity: 'error' });
+    //   valid = false;
+    // }
     if (!validatePassword(password)) {
       setSnackbar({ open: false, message: 'Password must be at least 8 characters long and can include letters, numbers, and special characters.', severity: 'error' });
       valid = false;
@@ -73,6 +81,11 @@ export function SignUpView() {
       setSnackbar({ open: false, message: 'Passwords do not match!', severity: 'error' });
       valid = false;
     }
+    if (!acceptDisclaimer) {
+      setShowDisclaimerError(true);
+      valid = false;
+    }
+
     return valid;
   };
 
@@ -84,18 +97,21 @@ export function SignUpView() {
     setIsLoading(true);
     try {
       const { confirmPassword, ...payload } = userDetails;
+      localStorage.setItem('chosegame', userDetails.chosegame);
       const data = await postData('auth/register', payload);
       if (data.isSuccess) {
         const message = data?.msg ?? 'Registration successful!';
+
         setUserDetails({
           employecode: '',
           name: '',
           email: '',
           mobilenumber: '',
-          chosegame:'',
+          chosegame: '',
           password: '',
           confirmPassword: '',
         });
+        setAcceptDisclaimer(false); // Uncheck the checkbox
         setSnackbar({ open: true, message, severity: 'success' });
       } else {
         const errorMessage = data?.error ?? 'User already exists! Please login with your credentials.';
@@ -132,7 +148,7 @@ export function SignUpView() {
           </Link>
         </Typography> */}
       </Box>
-      <Box display="flex" flexDirection="column" alignItems="flex-end">
+      <Box display="flex" flexDirection="column" alignItems="center" >
       <TextField
           fullWidth
           name="employecode"
@@ -233,6 +249,8 @@ export function SignUpView() {
           helperText={snackbar.message === 'Passwords do not match!' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Passwords do not match')}
         />
+        <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={acceptDisclaimer} onChange={handleCheckboxChange}    />} label="I agree to share the above information for this engagement activity." />
+        {showDisclaimerError && <Typography sx={{ mb: 2 }} color="error">Please accept the terms and conditions</Typography>}
   <LoadingButton
   fullWidth
   size="large"
