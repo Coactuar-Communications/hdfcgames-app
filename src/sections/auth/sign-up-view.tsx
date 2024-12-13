@@ -97,9 +97,11 @@ export function SignUpView() {
     setIsLoading(true);
     try {
       const { confirmPassword, ...payload } = userDetails;
+      localStorage.setItem('chosegame', userDetails.chosegame);
       const data = await postData('auth/register', payload);
       if (data.isSuccess) {
         const message = data?.msg ?? 'Registration successful!';
+        
         setUserDetails({
           employecode: '',
           name: '',

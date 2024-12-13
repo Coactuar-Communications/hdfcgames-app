@@ -1,6 +1,6 @@
 import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
@@ -9,11 +9,11 @@ import { useTheme } from '@mui/material/styles';
 import { _langs, _notifications } from 'src/_mock';
 
 import { Iconify } from 'src/components/iconify';
-
+import { SvgColor } from 'src/components/svg-color';
 import { Main } from './main';
 import { layoutClasses } from '../classes';
 import { NavMobile, NavDesktop } from './nav';
-import { navData } from '../config-nav-dashboard';
+// import { navData } from '../config-nav-dashboard';
 import { Searchbar } from '../components/searchbar';
 import { _workspaces } from '../config-nav-workspace';
 import { MenuButton } from '../components/menu-button';
@@ -35,10 +35,57 @@ export type DashboardLayoutProps = {
 
 export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) {
   const theme = useTheme();
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+
+  // Load the selected game from localStorage when the component mounts
+  useEffect(() => {
+    const savedGame = localStorage.getItem('chosegame'); // Get game from localStorage
+    if (savedGame) {
+      setSelectedGame(savedGame.toLowerCase()); // Convert to lowercase for consistency
+    }
+  }, []);
+const icon = (name: string) => (
+  <img src={`/assets/icons/navbar/${name}.svg`} alt={`${name} icon`} style={{ width: '100%', height: '100%' }} />
+);
+
 
   const [navOpen, setNavOpen] = useState(false);
 
   const layoutQuery: Breakpoint = 'lg';
+  const navData = [
+    {
+      title: 'Dashboard',
+      path: '/',
+      icon: icon('ic-analytics'),
+    },
+    {
+      title: 'Leaderboard',
+      path: '/user',
+      icon: icon('ic-user'),
+    },
+    {
+      title: 'Games',
+      path: '/products',
+      icon: icon('gamings'),
+
+      children: selectedGame
+        ? [
+            {
+              title: `Practice ${selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game`,
+              path: `/${selectedGame}-game`, // Example: /sudoku-game, /scrabble-game
+              icon: icon('gamings'),
+            },
+            {
+              title: `Live ${selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game`,
+              path: `/${selectedGame}-live-game`, // Example: /sudoku-live-game, /scrabble-live-game
+              icon: icon('gamings'),
+
+            },
+          ]
+        : [], // If no game is selected, no children are shown
+    },
+  ];
+
 
   return (
     <LayoutSection

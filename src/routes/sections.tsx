@@ -7,6 +7,7 @@ import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgr
 import { varAlpha } from 'src/theme/styles';
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
+// import { ChessLive } from 'src/sections/games/view';
 
 // ----------------------------------------------------------------------
 
@@ -14,13 +15,15 @@ export const HomePage = lazy(() => import('src/pages/home'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
-export const Register = lazy(() => import('src/pages/register'));
+// export const Register = lazy(() => import('src/pages/register'));
 export const ForgotPassword = lazy(() => import('src/pages/forgot-pword'));
 export const SetNewPword = lazy(() => import('src/pages/set-new-pword'));
 export const SignUpPage = lazy(() => import('src/pages/sign-up'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
-export const ChessEmbed = lazy(() => import('src/pages/chessgame'));
-export const SudokuEmbed = lazy(() => import('src/pages/sudoku'));
+export const ChessEmbed = lazy(() => import('src/pages/chess-game'));
+export const SudokuEmbed = lazy(() => import('src/pages/sudoku-game'));
+export const ChessLive  = lazy(() => import('src/pages/chess-live-game'));
+export const SudokuLiveEmbed = lazy(() => import('src/pages/sudoku-live-game'));
 
 
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
@@ -56,8 +59,11 @@ export function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
-        { path: 'chessgame', element:<ChessEmbed /> },
-        { path: 'sudoku', element:  <SudokuEmbed />},
+        { path: 'chess-game', element:<ChessEmbed /> },
+        { path: 'sudoku-game', element:  <SudokuEmbed />},
+        { path: 'chess-live-game', element:  <ChessLive />},
+        { path: 'sudoku-live-game', element:  <SudokuLiveEmbed />},
+
 
 
       ],
@@ -97,15 +103,15 @@ export function Router() {
         </AuthLayout>
       ),
     },
-    {
-      path: 'games',
-      element: (
+    // {
+    //   path: 'games',
+    //   element: (
 
-        <AuthLayout>
-          <Register />
-        </AuthLayout>
-      ),
-    },
+    //     <AuthLayout>
+    //       <Register />
+    //     </AuthLayout>
+    //   ),
+    // },
     // {
     //   path: 'chess',
     //   element: (
