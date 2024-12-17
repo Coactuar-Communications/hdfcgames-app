@@ -71,29 +71,30 @@ const icon = (name: string) => (
     {
       title: 'Dashboard',
       path: '/',
-      icon: icon('ic-analytics'),
+      icon: icon('chart-histogram'),
+      
     },
     {
       title: 'Leaderboard',
       path: '/user',
-      icon: icon('ic-user'),
+      icon: icon('user'),
     },
     {
       title: 'Games',
       path: '/products',
-      icon: icon('gamings'),
+      icon: icon('console-controller'),
 
       children: selectedGame
         ? [
             {
               title: `Practice ${selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game`,
               path: `/${selectedGame}-game`, // Example: /sudoku-game, /scrabble-game
-              icon: icon('gamings'),
+              icon: icon('game-console-crank-handheld'),
             },
             {
               title: `Live ${selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game`,
               path: `/${selectedGame}-live-game`, // Example: /sudoku-live-game, /scrabble-live-game
-              icon: icon('gamings'),
+              icon: icon('joystick'),
 
             },
           ]

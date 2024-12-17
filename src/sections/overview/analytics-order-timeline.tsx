@@ -75,9 +75,9 @@ function Item({ item, lastItem, ...other }: ItemProps) {
       <TimelineContent>
         <Typography variant="subtitle2">{item.title}</Typography>
 
-        <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+        {/* <Typography variant="caption" sx={{ color: 'text.disabled' }}>
           {fDateTime(item.time)}
-        </Typography>
+        </Typography> */}
       </TimelineContent>
     </TimelineItem>
   );

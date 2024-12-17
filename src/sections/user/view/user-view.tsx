@@ -22,14 +22,13 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 
 import type { UserProps } from '../user-table-row';
 
-
-// ----------------------------------------------------------------------
-
 export function UserView() {
   const table = useTable();
   const [filterName, setFilterName] = useState('');
   const [leaderboardData, setLeaderboardData] = useState<UserProps[]>([]);
   const [choosegame, setChoosegame] = useState<string | null>(null);
+  
+  // 1️⃣ Fetch User Data and Set choosegame
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -43,27 +42,58 @@ export function UserView() {
       }
     };
 
+    fetchUserData();
+  }, []);
+
+  // 2️⃣ Fetch Leaderboard Data When choosegame is Available
+  useEffect(() => {
     const fetchLeaderboard = async () => {
-      if (!choosegame) return;
-
+      if (!choosegame) return; // Wait for choosegame to be set
+    
+      // Normalize to lowercase for comparison
+      const normalizedChoosegame = choosegame.toLowerCase();
+    
+      console.log('Fetching leaderboard for game:', normalizedChoosegame); // Log the normalized value
+    
       try {
-        const endpoint =
-          choosegame === 'sudoku'
-            ? 'games/getsudukuleaderboard'
-            : 'games/getchessleaderboard';
+        let endpoint = '';
+        if (normalizedChoosegame === 'sudoku') {
+          endpoint = 'games/getsudukuleaderboard';
+        } else if (normalizedChoosegame === 'chess') {
+          endpoint = 'games/getchessleaderboard';
+        } else {
+          console.error('Invalid game selected:', choosegame); // Log an error if neither sudoku nor chess is selected
+          return;
+        }
+    
         const response = await getData(endpoint);
-
+    
         if (response && response.data) {
-          setLeaderboardData(response.data); // Set the leaderboard data
+          // Map through each row and store only the integer part of the score
+          const updatedData = response.data.map((user: UserProps) => ({
+            ...user,
+            score: Math.trunc(Number(user.score)), // Store only the integer part of the score
+          }));
+    
+          setLeaderboardData(updatedData); // Set the leaderboard data
         }
       } catch (error) {
         console.error('Error fetching leaderboard data:', error);
       }
     };
-
-    fetchUserData();
+    
+    
+  
     fetchLeaderboard();
-  }, [choosegame]);
+  }, [choosegame]); // Runs only when choosegame changes
+   // Runs only when choosegame changes
+  
+
+  
+  
+  
+
+  
   const dataFiltered: UserProps[] = applyFilter({
     inputData: leaderboardData,
     comparator: getComparator(table.order, table.orderBy),
@@ -76,15 +106,15 @@ export function UserView() {
     <DashboardContent>
       <Box display="flex" alignItems="center" mb={5}>
         <Typography variant="h4" flexGrow={1} color="#ffffff">
-          Users
+          Users - {choosegame ? choosegame.toUpperCase() : 'Loading...'}
         </Typography>
-        <Button
+        {/* <Button
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
           New Entry
-        </Button>
+        </Button> */}
       </Box>
 
       <Card>
@@ -114,26 +144,29 @@ export function UserView() {
                 }
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'email', label: 'Email' },
-                  { id: 'score', label: 'Score', align: 'center' },
+                  { id: 'email', label: 'Employee code' },
+                  { id: 'score', label: 'Score' },
                   { id: 'time', label: 'Time' },
                   { id: '' },
                 ]}
               />
-              <TableBody>
-                {dataFiltered
-                  .slice(
-                    table.page * table.rowsPerPage,
-                    table.page * table.rowsPerPage + table.rowsPerPage
-                  )
-                  .map((row) => (
-                    <UserTableRow
-                      key={row.id}
-                      row={row}
-                      selected={table.selected.includes(row.id)}
-                      onSelectRow={() => table.onSelectRow(row.id)}
-                    />
-                  ))}
+<TableBody>
+  {dataFiltered
+    .slice(
+      table.page * table.rowsPerPage,
+      table.page * table.rowsPerPage + table.rowsPerPage
+    )
+    .map((row) => (
+      <UserTableRow
+        key={row.id}
+        row={{ 
+          ...row, 
+          time: `${row.time}m` // Add 'm' in front of the time
+        }}
+        selected={table.selected.includes(row.id)}
+        onSelectRow={() => table.onSelectRow(row.id)}
+      />
+    ))}
 
                 <TableEmptyRows
                   height={68}
@@ -142,6 +175,8 @@ export function UserView() {
 
                 {notFound && <TableNoData searchQuery={filterName} />}
               </TableBody>
+
+
             </Table>
           </TableContainer>
         </Scrollbar>
@@ -159,8 +194,6 @@ export function UserView() {
     </DashboardContent>
   );
 }
-
-// ----------------------------------------------------------------------
 
 export function useTable() {
   const [page, setPage] = useState(0);
@@ -227,3 +260,6 @@ export function useTable() {
     onChangeRowsPerPage,
   };
 }
+
+
+

@@ -37,13 +37,13 @@ export function AnalyticsNews({ title, subheader, list, ...other }: Props) {
       </Scrollbar>
 
       <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button
+        {/* <Button
           size="small"
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={18} sx={{ ml: -0.5 }} />}
         >
           View all
-        </Button>
+        </Button> */}
       </Box>
     </Card>
   );
@@ -74,13 +74,13 @@ function PostItem({ sx, item, ...other }: BoxProps & { item: Props['list'][numbe
 
       <ListItemText
         primary={item.title}
-        secondary={item.description}
+        // secondary={item.description}
         primaryTypographyProps={{ noWrap: true, typography: 'subtitle2' }}
         secondaryTypographyProps={{ mt: 0.5, noWrap: true, component: 'span' }}
       />
 
       <Box sx={{ flexShrink: 0, color: 'text.disabled', typography: 'caption' }}>
-        {fToNow(item.postedAt)}
+        {/* {fToNow(item.postedAt)} */}
       </Box>
     </Box>
   );

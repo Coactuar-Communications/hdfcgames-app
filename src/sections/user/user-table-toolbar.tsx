@@ -57,7 +57,7 @@ export function UserTableToolbar({ numSelected, filterName, onFilterName }: User
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <Iconify icon="ic:round-filter-list" />
+            {/* <Iconify icon="ic:round-filter-list" /> */}
           </IconButton>
         </Tooltip>
       )}

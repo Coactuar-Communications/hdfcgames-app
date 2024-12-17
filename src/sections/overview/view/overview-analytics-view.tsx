@@ -20,16 +20,16 @@ export function OverviewAnalyticsView() {
   return (
     <DashboardContent maxWidth="xl">
       <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }} color="#ffffff">
-        Hi, Welcome back 👋
+        Hi, Welcome 👋
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={4}>
           <AnalyticsWidgetSummary
-            title="Weekly sales"
+            title="Registered users"
             percent={2.6}
             total={714000}
-            icon={<img alt="icon" src="/assets/icons/glass/ic-glass-bag.svg" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic-glass-users.svg" />}
             chart={{
               categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
               series: [22, 8, 35, 50, 82, 84, 77, 12],
@@ -37,9 +37,9 @@ export function OverviewAnalyticsView() {
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={4}>
           <AnalyticsWidgetSummary
-            title="New users"
+            title="Logged in users"
             percent={-0.1}
             total={1352831}
             color="secondary"
@@ -51,13 +51,13 @@ export function OverviewAnalyticsView() {
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={4}>
           <AnalyticsWidgetSummary
-            title="Purchase orders"
+            title="Currently Logged in"
             percent={2.8}
             total={1723315}
             color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic-glass-buy.svg" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic-glass-users.svg" />}
             chart={{
               categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
               series: [40, 70, 50, 28, 70, 75, 7, 64],
@@ -65,7 +65,7 @@ export function OverviewAnalyticsView() {
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        {/* <Grid xs={12} sm={6} md={3}>
           <AnalyticsWidgetSummary
             title="Messages"
             percent={3.6}
@@ -77,7 +77,7 @@ export function OverviewAnalyticsView() {
               series: [56, 30, 23, 54, 47, 40, 62, 73],
             }}
           />
-        </Grid>
+        </Grid> */}
 
         {/* <Grid xs={12} md={6} lg={4}>
           <AnalyticsCurrentVisits
@@ -137,10 +137,10 @@ export function OverviewAnalyticsView() {
 
        
         <Grid xs={12} md={6} lg={4}>
-          <AnalyticsOrderTimeline title="Order timeline" list={_timeline} />
+          <AnalyticsOrderTimeline title="Overall Top 6 Players" list={_timeline} />
         </Grid>
         <Grid xs={12} md={6} lg={8}>
-          <AnalyticsNews title="News" list={_posts.slice(0, 5)} />
+          <AnalyticsNews title="Userlist" list={_posts.slice(0, 5)} />
         </Grid>
 
         {/* <Grid xs={12} md={6} lg={4}>
