@@ -24,6 +24,7 @@ export const ChessEmbed = lazy(() => import('src/pages/chess-game'));
 export const SudokuEmbed = lazy(() => import('src/pages/sudoku-game'));
 export const ChessLive  = lazy(() => import('src/pages/chess-live-game'));
 export const SudokuLiveEmbed = lazy(() => import('src/pages/sudoku-live-game'));
+export const SelectGamePage = lazy(() => import('src/pages/select-game'));
 
 
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
@@ -63,6 +64,7 @@ export function Router() {
         { path: 'sudoku-game', element:  <SudokuEmbed />},
         { path: 'chess-live-game', element:  <ChessLive />},
         { path: 'sudoku-live-game', element:  <SudokuLiveEmbed />},
+        { path: 'select-game', element:  <SelectGamePage />},
 
 
 

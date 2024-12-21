@@ -2,8 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import { UserView } from 'src/sections/user/view';
-
+import { SelectGamePage } from 'src/sections/games/view'; 
 
 // ----------------------------------------------------------------------
 
@@ -11,10 +10,10 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> {`Leaderboard - ${CONFIG.appName}`}</title>
+        <title> {`Games - ${CONFIG.appName}`}</title>
       </Helmet>
 
-      <UserView />
+      <SelectGamePage />
     </>
   );
 }

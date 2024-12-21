@@ -12,7 +12,9 @@ export function Navbar() {
   useEffect(() => {
     const fetchUserData = async () => {
       const id = localStorage.getItem("userId");
+      console.log(id);
       const response = await getData(`auth/${id}`);
+      console.log(response);
       if (response.isSuccess && response.user) {
         const savedGame = response.user.choosegame;
         // console.log(savedGame);

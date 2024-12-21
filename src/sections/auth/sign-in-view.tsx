@@ -57,8 +57,15 @@ export function SignInView() {
         localStorage.setItem('authToken', data.user.token);
         localStorage.setItem("userId",data.user.id);
         localStorage.setItem("choosegame",data.user.choosegame);
-
-        router.push('/');
+        const roles = Array.isArray(data.user.roles) ? data.user.roles : [];
+      
+        console.log('User roles:', roles); // Debugging role check
+  
+        if (roles.includes('Admin') || roles.includes('SuperAdmin')) {
+          router.push('/');  // Redirect to dashboard for Admin/SuperAdmin
+        } else {
+          router.push('/select-game');  // Redirect to user page for regular users
+        }
       } else {
         const errorMessage = data?.error ?? 'Invalid email or password. Please try again.';
         setSnackbar({ open: true, message: errorMessage, severity: 'error' });
@@ -74,7 +81,6 @@ export function SignInView() {
       setIsLoading(false);
     }
   };
-
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
       <TextField

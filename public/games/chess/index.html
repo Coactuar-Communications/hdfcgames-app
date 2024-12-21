@@ -117,7 +117,7 @@
                         console.log(evt);
                         const userId = localStorage.getItem('userId');
                         const token = localStorage.getItem('authToken');
-
+console.log(userId);
                         if (userId) {
                             fetch('http://localhost:9000/apis/games/chessscore', {
                                     method: 'POST',

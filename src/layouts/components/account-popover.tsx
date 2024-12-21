@@ -1,6 +1,7 @@
 import type { IconButtonProps } from '@mui/material/IconButton';
 
-import { useState, useCallback } from 'react';
+
+import {useEffect, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,9 +12,9 @@ import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
-import { postData } from 'src/utils/request';
+// import { postData } from 'src/utils/request';
 import { useRouter, usePathname } from 'src/routes/hooks';
-
+import { getData,postData } from 'src/utils/request';
 import { _myAccount } from 'src/_mock';
 
 // ----------------------------------------------------------------------
@@ -74,7 +75,12 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
       console.error('Error logging out:', error);
     }
   };
-
+  const [email, setEmail] = useState<string>(''); // Store email here
+  useEffect(() => {
+    const queryEmail = new URLSearchParams(window.location.search).get('email');
+    console.log(queryEmail);
+ 
+  }, []);
 
   return (
     <>
@@ -140,7 +146,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
             },
           }}
         >
-          {data.map((option) => (
+          {/* {data.map((option) => (
             <MenuItem
               key={option.label}
               selected={option.href === pathname}
@@ -149,10 +155,10 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
               {option.icon}
               {option.label}
             </MenuItem>
-          ))}
+          ))} */}
         </MenuList>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
 
         <Box sx={{ p: 1 }}>
         <Button fullWidth color="error" size="medium" variant="text" onClick={handleLogout}>

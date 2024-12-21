@@ -21,8 +21,9 @@ type Props = CardProps & {
   list: {
     id: string;
     type: string;
-    title: string;
-    time: string | number | null;
+    name: string; // Player Name
+    game: string; // Game the player played
+    score: number; // Player's score
   }[];
 };
 
@@ -73,11 +74,17 @@ function Item({ item, lastItem, ...other }: ItemProps) {
       </TimelineSeparator>
 
       <TimelineContent>
-        <Typography variant="subtitle2">{item.title}</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+          {item.name} 
+        </Typography>
 
-        {/* <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-          {fDateTime(item.time)}
-        </Typography> */}
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          Game: {item.game}
+        </Typography>
+
+        <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+          Score: {item.score}
+        </Typography>
       </TimelineContent>
     </TimelineItem>
   );

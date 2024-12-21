@@ -1,23 +1,21 @@
-import type { BoxProps } from '@mui/material/Box';
-import type { CardProps } from '@mui/material/Card';
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 import CardHeader from '@mui/material/CardHeader';
+import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
-
-import { fToNow } from 'src/utils/format-time';
-
-import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 
-import type { PostItemProps } from '../blog/post-item';
+interface PostItemProps {
+  id: number;
+  title: string;
+  description: string;
+  path: string;
+  coverUrl: string;
+  totalViews: number;
+  totalShares: number;
+}
 
-// ----------------------------------------------------------------------
-
-type Props = CardProps & {
+type Props = {
   title?: string;
   subheader?: string;
   list: PostItemProps[];
@@ -35,23 +33,11 @@ export function AnalyticsNews({ title, subheader, list, ...other }: Props) {
           ))}
         </Box>
       </Scrollbar>
-
-      <Box sx={{ p: 2, textAlign: 'right' }}>
-        {/* <Button
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={18} sx={{ ml: -0.5 }} />}
-        >
-          View all
-        </Button> */}
-      </Box>
     </Card>
   );
 }
 
-// ----------------------------------------------------------------------
-
-function PostItem({ sx, item, ...other }: BoxProps & { item: Props['list'][number] }) {
+function PostItem({ item }: { item: PostItemProps }) {
   return (
     <Box
       sx={{
@@ -61,9 +47,7 @@ function PostItem({ sx, item, ...other }: BoxProps & { item: Props['list'][numbe
         display: 'flex',
         alignItems: 'center',
         borderBottom: (theme) => `dashed 1px ${theme.vars.palette.divider}`,
-        ...sx,
       }}
-      {...other}
     >
       <Avatar
         variant="rounded"
@@ -74,14 +58,10 @@ function PostItem({ sx, item, ...other }: BoxProps & { item: Props['list'][numbe
 
       <ListItemText
         primary={item.title}
-        // secondary={item.description}
+        secondary={item.description}
         primaryTypographyProps={{ noWrap: true, typography: 'subtitle2' }}
         secondaryTypographyProps={{ mt: 0.5, noWrap: true, component: 'span' }}
       />
-
-      <Box sx={{ flexShrink: 0, color: 'text.disabled', typography: 'caption' }}>
-        {/* {fToNow(item.postedAt)} */}
-      </Box>
     </Box>
   );
 }

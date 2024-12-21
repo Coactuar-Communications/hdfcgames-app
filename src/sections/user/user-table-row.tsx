@@ -71,7 +71,7 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuList
+        {/* <MenuList
           disablePadding
           sx={{
             p: 0.5,
@@ -90,7 +90,7 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
             <Iconify icon="solar:trash-bin-trash-bold" />
             Delete
           </MenuItem>
-        </MenuList>
+        </MenuList> */}
       </Popover>
     </>
   );
