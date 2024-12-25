@@ -15,7 +15,7 @@ import { Iconify } from 'src/components/iconify';
 
 import { TableNoData } from '../table-no-data';
 import { UserTableRowScore } from '../user-table-row-score';
-import { UserTableHeadScore } from '../user-table-head-score'; 
+import { UserTableHeadScore } from '../user-table-head-score';
 import { TableEmptyRows } from '../table-empty-rows';
 import { UserTableToolbar } from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
@@ -27,7 +27,7 @@ export function UserViewScore() {
   const [filterName, setFilterName] = useState('');
   const [leaderboardData, setLeaderboardData] = useState<UserProps[]>([]);
   const [choosegame, setChoosegame] = useState<string | null>(null);
-  
+
   // 1️⃣ Fetch User Data and Set choosegame
   useEffect(() => {
     const fetchUserData = async () => {
@@ -49,9 +49,9 @@ export function UserViewScore() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
         if (!choosegame) return; // Wait for choosegame to be set
-      
+
         const normalizedChoosegame = choosegame.toLowerCase();
-      
+
         try {
           let endpoint = '';
           if (normalizedChoosegame === 'sudoku') {
@@ -62,9 +62,9 @@ export function UserViewScore() {
             console.error('Invalid game selected:', choosegame);
             return;
           }
-      
+
           const response = await getData(endpoint);
-      
+
           if (response && response.data) {
             // Sort data by score in descending order
             const sortedData = response.data
@@ -77,35 +77,35 @@ export function UserViewScore() {
               const scoreB = Number(b.score); // Ensure score is a number
               return scoreB - scoreA; // Sort in descending order by score
             });
-          
+
           // Add rank based on sorted data
           const rankedData = sortedData.map((user: UserProps, index: number) => ({
             ...user,
             rank: index + 1,  // Rank starts from 1
           }));
-          
+
           setLeaderboardData(rankedData);  // Set the leaderboard data with ranks
             // Set the sorted leaderboard data
-          
+
           }
         } catch (error) {
           console.error('Error fetching leaderboard data:', error);
         }
       };
-      
-    
-    
-  
+
+
+
+
     fetchLeaderboard();
   }, [choosegame]); // Runs only when choosegame changes
    // Runs only when choosegame changes
-  
 
-  
-  
-  
 
-  
+
+
+
+
+
   const dataFiltered: UserProps[] = applyFilter({
     inputData: leaderboardData,
     comparator: getComparator(table.order, table.orderBy),
@@ -121,17 +121,17 @@ export function UserViewScore() {
         {choosegame ? choosegame.toUpperCase() : 'Loading...'} -Leaderboard
         </Typography> */}
         <Box
-        
+
   display="flex"
   alignItems="center"
   justifyContent="center"
  // Full viewport height
 >
   <img
-    src="../../public/assets/images/img/leaderboard-image.png"
+    src="/assets/images/img/leaderboard-image.png"
     style={{ width: '70%', height: 'auto',marginTop: '50px' }}
     alt="Leaderboard"
-  
+
   />
 </Box>
         {/* <Button
@@ -175,7 +175,7 @@ export function UserViewScore() {
                     { id: 'score', label: 'Score' },
                     { id: 'time', label: 'Time' },
                   ]}
-                  
+
               />
 <TableBody>
   {dataFiltered
@@ -186,8 +186,8 @@ export function UserViewScore() {
     .map((row, index) => (
       <UserTableRowScore
         key={row.id}
-        row={{ 
-          ...row, 
+        row={{
+          ...row,
           time: `${row.time}m` // Add 'm' in front of the time
         }}
         selected={table.selected.includes(row.id)}
@@ -202,7 +202,7 @@ export function UserViewScore() {
             </Table>
           </TableContainer>
         </Scrollbar>
-{/* 
+{/*
         <TablePagination
           component="div"
           page={table.page}
@@ -223,7 +223,7 @@ export function useScoreTable() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState<string[]>([]);
     const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  
+
     const onSort = useCallback(
       (id: string) => {
         const isAsc = orderBy === id && order === 'asc';
@@ -232,7 +232,7 @@ export function useScoreTable() {
       },
       [order, orderBy]
     );
-  
+
     const onSelectAllRows = useCallback((checked: boolean, newSelecteds: string[]) => {
       if (checked) {
         setSelected(newSelecteds);
@@ -240,26 +240,26 @@ export function useScoreTable() {
       }
       setSelected([]);
     }, []);
-  
+
     const onSelectRow = useCallback(
       (inputValue: string) => {
         const newSelected = selected.includes(inputValue)
           ? selected.filter((value) => value !== inputValue)
           : [...selected, inputValue];
-  
+
         setSelected(newSelected);
       },
       [selected]
     );
-  
+
     const onResetPage = useCallback(() => {
       setPage(0);
     }, []);
-  
+
     const onChangePage = useCallback((event: unknown, newPage: number) => {
       setPage(newPage);
     }, []);
-  
+
     const onChangeRowsPerPage = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
@@ -267,7 +267,7 @@ export function useScoreTable() {
       },
       [onResetPage]
     );
-  
+
     return {
       page,
       order,
@@ -282,7 +282,7 @@ export function useScoreTable() {
       onChangeRowsPerPage,
     };
   }
-  
+
 
 
 

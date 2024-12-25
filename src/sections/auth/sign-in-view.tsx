@@ -13,7 +13,7 @@ import Alert, { AlertColor } from '@mui/material/Alert';
 import { useRouter } from 'src/routes/hooks';
 import { Iconify } from 'src/components/iconify';
 import { postData } from 'src/utils/request';
-import analyt from '../../../public/assets/images/img/logo2.jpg';
+import analyt from '/assets/images/img/logo2.jpg';
 
 export function SignInView() {
   const router = useRouter();
@@ -50,23 +50,23 @@ export function SignInView() {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     if (!validateSignInFields()) {
       return;
     }
-  
+
     setIsLoading(true);
     try {
       const { email, password } = userDetails;
       const data = await postData('auth/login', { email, password });
-  
+
       if (data.isSuccess) {
         const message = data?.msg ?? 'Sign-in successful!';
         setSnackbar({ open: true, message, severity: 'success' });
         localStorage.setItem('authToken', data.user.token);
         localStorage.setItem('userId', data.user.id);
         localStorage.setItem('choosegame', data.user.choosegame);
-  
+
         const roles = Array.isArray(data.user.roles) ? data.user.roles : [];
         if (roles.includes('Admin') || roles.includes('SuperAdmin')) {
           router.push('/'); // Redirect to Admin/SuperAdmin page
@@ -79,7 +79,7 @@ export function SignInView() {
       }
     } catch (err: any) {
       console.error('Error signing in:', err);
-  
+
       // Handle 401 explicitly
       if (err.response?.status === 401) {
         setSnackbar({
@@ -98,10 +98,10 @@ export function SignInView() {
       setIsLoading(false);
     }
   };
-  
-  
-  
-  
+
+
+
+
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
       <TextField
@@ -186,8 +186,8 @@ export function SignInView() {
       </Box>
 
       {renderForm}
-      
-{/* 
+
+{/*
       <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
         <Typography
           variant="overline"

@@ -17,7 +17,7 @@ import Select,{ SelectChangeEvent } from '@mui/material/Select';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import analyt from '../../../public/assets/images/img/logo2.jpg';
+import analyt from '/assets/images/img/logo2.jpg';
 import {
   validateEmail,
   validatePassword,
@@ -101,7 +101,7 @@ export function SignUpView() {
       const data = await postData('auth/register', payload);
       if (data.isSuccess) {
         const message = data?.msg ?? 'Registration successful!';
-        
+
         setUserDetails({
           employecode: '',
           name: '',
@@ -124,7 +124,7 @@ export function SignUpView() {
       setIsLoading(false);
     }
   };
-  
+
 
   const handleSnackbarClose = () => {
     setSnackbar({ ...snackbar, open: false });
