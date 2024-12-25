@@ -24,6 +24,9 @@ export const ChessEmbed = lazy(() => import('src/pages/chess-game'));
 export const SudokuEmbed = lazy(() => import('src/pages/sudoku-game'));
 export const ChessLive  = lazy(() => import('src/pages/chess-live-game'));
 export const SudokuLiveEmbed = lazy(() => import('src/pages/sudoku-live-game'));
+export const ScrabbleEmbed = lazy(() => import('src/pages/scrabble-game'));
+export const ScrabbleLiveEmbed = lazy(() => import('src/pages/scrabble-live-game'));
+
 export const SelectGamePage = lazy(() => import('src/pages/select-game'));
 
 
@@ -62,8 +65,12 @@ export function Router() {
         { path: 'blog', element: <BlogPage /> },
         { path: 'chess-game', element:<ChessEmbed /> },
         { path: 'sudoku-game', element:  <SudokuEmbed />},
+        { path: 'scrabble-game', element:  <ScrabbleEmbed />},
+
         { path: 'chess-live-game', element:  <ChessLive />},
         { path: 'sudoku-live-game', element:  <SudokuLiveEmbed />},
+        { path: 'scrabble-live-game', element:  <ScrabbleLiveEmbed />},
+
         { path: 'select-game', element:  <SelectGamePage />},
 
 

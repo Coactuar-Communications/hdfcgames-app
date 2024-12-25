@@ -2,6 +2,7 @@ export const setLoginInfo = (user: { name: string; email: string; token: string 
   localStorage.setItem("USERNAME", user.name);
   localStorage.setItem("USEREMAIL", user.email);
   localStorage.setItem("USERTOKEN", user.token);
+
 };
 
 export const clearLoginInfo = (): void => {
@@ -16,6 +17,8 @@ export const provideUserInfo = (): { name: string; email: string; token: string 
     name: localStorage.getItem("USERNAME") || "",
     email: localStorage.getItem("USEREMAIL") || "",
     token,
+    
+    
   };
 };
 

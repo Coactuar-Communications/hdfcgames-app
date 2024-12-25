@@ -1,8 +1,5 @@
-import type { IconButtonProps } from '@mui/material/IconButton';
-
-
-import {useEffect, useState, useCallback } from 'react';
-
+import { useState, useEffect, useCallback } from 'react';
+import { getData, postData } from 'src/utils/request';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -12,28 +9,29 @@ import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
-// import { postData } from 'src/utils/request';
 import { useRouter, usePathname } from 'src/routes/hooks';
-import { getData,postData } from 'src/utils/request';
-import { _myAccount } from 'src/_mock';
 
-// ----------------------------------------------------------------------
-
-export type AccountPopoverProps = IconButtonProps & {
+// Define AccountPopoverProps type
+export type AccountPopoverProps = {
   data?: {
     label: string;
     href: string;
     icon?: React.ReactNode;
     info?: React.ReactNode;
   }[];
+  username?: string;
+  email?: string;
+  sx?: object;
 };
 
-export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps) {
+export function AccountPopover({ data = [], username = 'User', email = 'user@example.com', sx, ...other }: AccountPopoverProps) {
   const router = useRouter();
-
   const pathname = usePathname();
-
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
+
+  // Use username and email props directly; fetch user data if needed.
+  const [fetchedUsername, setFetchedUsername] = useState<string>(username);
+  const [fetchedEmail, setFetchedEmail] = useState<string>(email);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setOpenPopover(event.currentTarget);
@@ -50,20 +48,27 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     },
     [handleClosePopover, router]
   );
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const id = localStorage.getItem('userId');
+      if (!id) return;
+
+      const response = await getData(`auth/${id}`);
+      if (response.isSuccess && response.user) {
+        setFetchedUsername(response.user.name);
+        setFetchedEmail(response.user.email);
+      }
+    };
+    fetchUserData();
+  }, []);
+
   const handleLogout = async () => {
     try {
       const userId = localStorage.getItem('userId');
+      if (!userId) return;
 
-      if (!userId) {
-        return;
-      }
-
-      const response = await postData(
-        'auth/logout',
-        {  userId },
-        'POST'
-      );
-
+      const response = await postData('auth/logout', { userId }, 'POST');
       if (response.isSuccess) {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userId');
@@ -75,12 +80,6 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
       console.error('Error logging out:', error);
     }
   };
-  const [email, setEmail] = useState<string>(''); // Store email here
-  useEffect(() => {
-    const queryEmail = new URLSearchParams(window.location.search).get('email');
-    console.log(queryEmail);
- 
-  }, []);
 
   return (
     <>
@@ -96,8 +95,8 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         }}
         {...other}
       >
-        <Avatar src={_myAccount.photoURL} alt={_myAccount.displayName} sx={{ width: 1, height: 1 }}>
-          {_myAccount.displayName.charAt(0).toUpperCase()}
+        <Avatar src="" alt={fetchedUsername} sx={{ width: 1, height: 1 }}>
+          {fetchedUsername.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -115,17 +114,16 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
       >
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {_myAccount?.displayName}
+            {fetchedUsername}
           </Typography>
-
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {_myAccount?.email}
+            {fetchedEmail}
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuList
+        {/* <MenuList
           disablePadding
           sx={{
             p: 1,
@@ -146,7 +144,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
             },
           }}
         >
-          {/* {data.map((option) => (
+          {data.map((option: { label: string; href: string; icon?: React.ReactNode; info?: React.ReactNode }) => (
             <MenuItem
               key={option.label}
               selected={option.href === pathname}
@@ -155,13 +153,13 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
               {option.icon}
               {option.label}
             </MenuItem>
-          ))} */}
-        </MenuList>
+          ))}
+        </MenuList> */}
 
-        {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-        <Button fullWidth color="error" size="medium" variant="text" onClick={handleLogout}>
+          <Button fullWidth color="error" size="medium" variant="text" onClick={handleLogout}>
             Logout
           </Button>
         </Box>

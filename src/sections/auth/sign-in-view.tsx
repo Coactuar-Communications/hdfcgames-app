@@ -8,7 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert, { AlertColor } from '@mui/material/Alert';
 import { useRouter } from 'src/routes/hooks';
 import { Iconify } from 'src/components/iconify';
 import { postData } from 'src/utils/request';
@@ -22,8 +23,18 @@ export function SignInView() {
     email: '',
     password: '',
   });
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: '' });
-
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: AlertColor; // Use AlertColor for valid severity values
+  }>({
+    open: false,
+    message: '',
+    severity: 'info', // Default value for severity
+  });
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
   const validateSignInFields = () => {
     // Simple validation for empty email and password
     if (!userDetails.email || !userDetails.password) {
@@ -39,48 +50,58 @@ export function SignInView() {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     if (!validateSignInFields()) {
       return;
     }
+  
     setIsLoading(true);
     try {
       const { email, password } = userDetails;
       const data = await postData('auth/login', { email, password });
-
+  
       if (data.isSuccess) {
         const message = data?.msg ?? 'Sign-in successful!';
-        setUserDetails({
-          email: '',
-          password: '',
-        });
         setSnackbar({ open: true, message, severity: 'success' });
         localStorage.setItem('authToken', data.user.token);
-        localStorage.setItem("userId",data.user.id);
-        localStorage.setItem("choosegame",data.user.choosegame);
-        const roles = Array.isArray(data.user.roles) ? data.user.roles : [];
-      
-        console.log('User roles:', roles); // Debugging role check
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('choosegame', data.user.choosegame);
   
+        const roles = Array.isArray(data.user.roles) ? data.user.roles : [];
         if (roles.includes('Admin') || roles.includes('SuperAdmin')) {
-          router.push('/');  // Redirect to dashboard for Admin/SuperAdmin
+          router.push('/'); // Redirect to Admin/SuperAdmin page
         } else {
-          router.push('/select-game');  // Redirect to user page for regular users
+          router.push('/select-game'); // Redirect to user page
         }
       } else {
-        const errorMessage = data?.error ?? 'Invalid email or password. Please try again.';
+        const errorMessage = data?.msg ?? 'Invalid email or password.';
         setSnackbar({ open: true, message: errorMessage, severity: 'error' });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error signing in:', err);
-      setSnackbar({
-        open: true,
-        message: 'An error occurred. Please try again later.',
-        severity: 'error',
-      });
+  
+      // Handle 401 explicitly
+      if (err.response?.status === 401) {
+        setSnackbar({
+          open: true,
+          message: 'Wrong password',
+          severity: 'error',
+        });
+      } else {
+        setSnackbar({
+          open: true,
+          message: 'An error occurred. Please try again later.',
+          severity: 'error',
+        });
+      }
     } finally {
       setIsLoading(false);
     }
   };
+  
+  
+  
+  
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
       <TextField
@@ -91,6 +112,8 @@ export function SignInView() {
         onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
+        helperText={snackbar.message === 'Invalid email format.' ? snackbar.message : ''}
+          error={snackbar.severity === 'error' && snackbar.message.includes('Invalid email format')}
       />
 
       <Link variant="body2" color="inherit" href="/forgot-pword" sx={{ mb: 1.5 }}>
@@ -135,6 +158,16 @@ export function SignInView() {
       >
         Sign in
       </LoadingButton>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Position the Snackbar
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 
@@ -153,6 +186,7 @@ export function SignInView() {
       </Box>
 
       {renderForm}
+      
 {/* 
       <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
         <Typography

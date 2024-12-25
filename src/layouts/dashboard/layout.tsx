@@ -77,7 +77,7 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
       icon: icon('console-controller'), 
     },
 
-    ...(roles.includes("User") || roles.includes("Admin") || roles.includes("SuperAdmin")
+    ...(roles.includes("") || roles.includes("Admin") || roles.includes("SuperAdmin")
       ? [
           // {
           //   title: 'Leaderboard',
