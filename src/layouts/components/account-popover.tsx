@@ -73,6 +73,7 @@ export function AccountPopover({ data = [], username = 'User', email = 'user@exa
         localStorage.removeItem('authToken');
         localStorage.removeItem('userId');
         router.push('/sign-in');
+       
       } else {
         console.error('Logout failed:', response.msg);
       }

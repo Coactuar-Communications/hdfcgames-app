@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { DashboardContent } from 'src/layouts/dashboard';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal'; // Import Modal
+import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom';
 import { getData } from 'src/utils/request';
 import { UserViewScore } from 'src/sections/user/view';
@@ -48,72 +49,68 @@ Quick Tips:
 • Experiment with the letters by quickly writing them down in a different order. For example, elzzup might not be recognizable right away, but once rearranged like 'puzzle', it becomes clear.
 `;
 const sudokuPointSystem = `
-SDK
+Difficulty Level: The score is influenced by the difficulty of the puzzle. Higher difficulty yields a higher potential score.
+
+Time Taken: The faster a player completes the puzzle, the higher the score, rewarding quick completion.
+
+Hints/Auto-Solvers: Using hints or auto-solving features reduces the score as a penalty for external assistance.
+
+Bonus Time Completion: Completing the puzzle within a predefined bonus time grants an additional score boost.
 `;
 const chessPointSystem = `
-CHESS
+Initial Score: The game starts with a score of 5000 points.
+
+Score Reduction Rate: The score decreases at a rate of 10 points per second as the game progresses.
+
+Duration Factor: The final score depends on the duration of the game, with longer playtimes resulting in a greater reduction due to the continuous 10-point decrement per second.
+
+Additional Adjustments: The final score may be adjusted by other game mechanics, which can add, subtract, or otherwise modify the score.
 `;
 const scrabblePointSystem = `
 SCRABBLE
 `;
 
+
 export function SelectGamePage() {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen1, setIsModalOpen1] = useState(false); // Modal state
-   // Modal state
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const id = localStorage.getItem("userId"); // Get user ID from localStorage
-      const response = await getData(`auth/${id}`); // Call the API to get user info
+      const id = localStorage.getItem("userId");
+      const response = await getData(`auth/${id}`);
       if (response.isSuccess && response.user) {
         const savedGame = response.user.choosegame;
         if (savedGame) {
-          setSelectedGame(savedGame.toLowerCase()); // Dynamically set the selected game
+          setSelectedGame(savedGame.toLowerCase());
         }
       }
-      setIsLoading(false); // End loading state
+      setIsLoading(false);
     };
     fetchUserData();
   }, []);
-  
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalOpen1 = () => setIsModalOpen1(true);
-
   const handleModalClose = () => setIsModalOpen(false);
   const handleModalClose1 = () => setIsModalOpen1(false);
 
-
   const getGuidelines = () => {
-    if (selectedGame === 'sudoku') {
-      return sudokuGuidelines;
-    }
-    if (selectedGame === 'chess') {
-      return chessGuidelines;
-    }
-    if (selectedGame === 'scrabble') {
-      return scrabbleGuidelines;
-    }
+    if (selectedGame === 'sudoku') return sudokuGuidelines;
+    if (selectedGame === 'chess') return chessGuidelines;
+    if (selectedGame === 'scrabble') return scrabbleGuidelines;
     return 'No guidelines available.';
   };
+
   const getPointSystem = () => {
-    if (selectedGame === 'sudoku') {
-      return sudokuPointSystem;
-    }
-    if (selectedGame === 'chess') {
-      return chessPointSystem;
-    }
-    if (selectedGame === 'scrabble') {
-      return scrabblePointSystem;
-    }
+    if (selectedGame === 'sudoku') return sudokuPointSystem;
+    if (selectedGame === 'chess') return chessPointSystem;
+    if (selectedGame === 'scrabble') return scrabblePointSystem;
     return 'No guidelines available.';
   };
-  
-  
 
   if (isLoading) {
     return (
@@ -145,61 +142,53 @@ export function SelectGamePage() {
       }}
     >
       <DashboardContent>
-        <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start" sx={{ gap: 3 }}>
-          <Box
-            sx={{
-              flex: 1,
-              maxWidth: '50%',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-          <img
-  src={
-    selectedGame === 'sudoku'
-      ? '../../public/assets/images/img/sudoku.png'
-      : selectedGame === 'chess'
-      ? '../../public/assets/images/img/chess.png'
-      : '../../public/assets/images/img/scrabble.png' // Path for Scrabble image
-  }
-  alt={
-    selectedGame === 'sudoku'
-      ? 'Sudoku board'
-      : selectedGame === 'chess'
-      ? 'Chess pieces'
-      : 'Scrabble board'
-  }
-  style={{ width: '300px', height: 'auto', marginBottom: '20px', marginTop: '100px' }}
-/>
-
-
-
-            <Box sx={{ mt: 'auto', width: '100%', maxWidth: '300px' }}>
-            <Button
-    variant="contained"
-    color="error"
-    sx={{ mb: 2, width: '100%' }}
-    onClick={() => navigate(`/${selectedGame}-game`)}
-  >
-    Practice {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
-  </Button>
-
-  {/* Live Game Button */}
-  <Button
-    variant="contained"
-    color="error"
-    sx={{mb: 2, width: '100%' }}
-    onClick={() => navigate(`/${selectedGame}-live-game`)}
-  >
-    Live {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
-  </Button>
-
+        <Grid container spacing={3}>
+          {/* Left Column */}
+          <Grid item xs={12} md={6} textAlign="center">
+            <img
+              src={
+                selectedGame === 'sudoku'
+                  ? '../../public/assets/images/img/sudoku.png'
+                  : selectedGame === 'chess'
+                  ? '../../public/assets/images/img/chess.png'
+                  : '../../public/assets/images/img/scrabble.png'
+              }
+              alt={
+                selectedGame === 'sudoku'
+                  ? 'Sudoku board'
+                  : selectedGame === 'chess'
+                  ? 'Chess pieces'
+                  : 'Scrabble board'
+              }
+              style={{
+                width: '100%',
+                maxWidth: '300px',
+                height: 'auto',
+                marginBottom: '20px',
+                marginTop: '100px',
+              }}
+            />
+            <Box sx={{ mt: 'auto', maxWidth: '300px', mx: 'auto' }}>
               <Button
                 variant="contained"
                 color="error"
-                sx={{ width: '100%', mb:2 }}
+                sx={{ mb: 2, width: '100%' }}
+                onClick={() => navigate(`/${selectedGame}-game`)}
+              >
+                Practice {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ mb: 2, width: '100%' }}
+                onClick={() => navigate(`/${selectedGame}-live-game`)}
+              >
+                Live {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ mb: 2, width: '100%' }}
                 onClick={handleModalOpen}
               >
                 Game rules
@@ -207,32 +196,22 @@ export function SelectGamePage() {
               <Button
                 variant="contained"
                 color="error"
-                sx={{ width: '100%', mt:'2' }}
+                sx={{ width: '100%' }}
                 onClick={handleModalOpen1}
               >
                 Point system
               </Button>
             </Box>
-          </Box>
-          <Box sx={{ flex: 1, maxWidth: '50%' }}>
+          </Grid>
+          {/* Right Column */}
+          <Grid item xs={12} md={6}>
             <UserViewScore />
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </DashboardContent>
+      {/* Modals */}
       <Modal open={isModalOpen} onClose={handleModalClose}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 800,
-            bgcolor: 'background.paper',
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
+        <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" gutterBottom>
             Rules and Guidelines
           </Typography>
@@ -245,19 +224,7 @@ export function SelectGamePage() {
         </Box>
       </Modal>
       <Modal open={isModalOpen1} onClose={handleModalClose1}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 800,
-            bgcolor: 'background.paper',
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
+        <Box sx={{ ...modalStyle }}>
           <Typography variant="h6" gutterBottom>
             Point System
           </Typography>
@@ -272,3 +239,15 @@ export function SelectGamePage() {
     </Box>
   );
 }
+
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: { xs: '90%', sm: '70%', md: '50%' },
+  bgcolor: 'background.paper',
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+};

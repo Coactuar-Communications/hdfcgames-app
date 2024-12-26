@@ -153,55 +153,69 @@ export function UserViewScore() {
           }}
         /> */}
 
-        <Scrollbar>
-          <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 400 }}>
-              <UserTableHeadScore
-                order={table.order}
-                orderBy={table.orderBy}
-                rowCount={leaderboardData.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    leaderboardData.map((user) => user.id)
-                  )
-                }
-                headLabel={[
-                    { id: 'rank', label: 'Rank' },  // Add Rank column here
-                    { id: 'name', label: 'Name' },
-                    { id: 'email', label: 'Employee code' },
-                    { id: 'score', label: 'Score' },
-                    { id: 'time', label: 'Time' },
-                  ]}
-                  
+<Scrollbar>
+  <Box
+    sx={{
+      width: '100%',
+      overflowX: 'auto',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: { xs: 1, sm: 2, md: 3 }, // Adjust padding for different breakpoints
+    }}
+  >
+    <TableContainer
+      sx={{
+        minWidth: { xs: 300, sm: 400, md: 500 }, // Adjust minWidth for screen sizes
+        maxWidth: '100%', // Ensure it doesn't overflow
+        overflowX: 'auto',
+      }}
+    >
+      <Table>
+        <UserTableHeadScore
+          order={table.order}
+          orderBy={table.orderBy}
+          rowCount={leaderboardData.length}
+          numSelected={table.selected.length}
+          onSort={table.onSort}
+          onSelectAllRows={(checked) =>
+            table.onSelectAllRows(
+              checked,
+              leaderboardData.map((user) => user.id)
+            )
+          }
+          headLabel={[
+            { id: 'rank', label: 'Rank' },
+            { id: 'name', label: 'Name' },
+            { id: 'email', label: 'Employee code' },
+            { id: 'score', label: 'Score' },
+            { id: 'time', label: 'Time' },
+          ]}
+        />
+        <TableBody>
+          {dataFiltered
+            .slice(
+              table.page * table.rowsPerPage,
+              table.page * table.rowsPerPage + table.rowsPerPage
+            )
+            .map((row, index) => (
+              <UserTableRowScore
+                key={row.id}
+                row={{
+                  ...row,
+                  time: `${row.time}m`, // Add 'm' in front of the time
+                }}
+                selected={table.selected.includes(row.id)}
+                onSelectRow={() => table.onSelectRow(row.id)}
+                rank={index + 1} // Pass the rank (index + 1 for 1-based ranking)
               />
-<TableBody>
-  {dataFiltered
-    .slice(
-      table.page * table.rowsPerPage,
-      table.page * table.rowsPerPage + table.rowsPerPage
-    )
-    .map((row, index) => (
-      <UserTableRowScore
-        key={row.id}
-        row={{ 
-          ...row, 
-          time: `${row.time}m` // Add 'm' in front of the time
-        }}
-        selected={table.selected.includes(row.id)}
-        onSelectRow={() => table.onSelectRow(row.id)}
-        rank={index + 1}  // Pass the rank (index + 1 for 1-based ranking)
-      />
-    ))}
-</TableBody>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </Box>
+</Scrollbar>
 
-
-
-            </Table>
-          </TableContainer>
-        </Scrollbar>
 {/* 
         <TablePagination
           component="div"
@@ -218,70 +232,71 @@ export function UserViewScore() {
 }
 
 export function useScoreTable() {
-    const [page, setPage] = useState(0);
-    const [orderBy, setOrderBy] = useState('name');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [selected, setSelected] = useState<string[]>([]);
-    const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  
-    const onSort = useCallback(
-      (id: string) => {
-        const isAsc = orderBy === id && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(id);
-      },
-      [order, orderBy]
-    );
-  
-    const onSelectAllRows = useCallback((checked: boolean, newSelecteds: string[]) => {
-      if (checked) {
-        setSelected(newSelecteds);
-        return;
-      }
-      setSelected([]);
-    }, []);
-  
-    const onSelectRow = useCallback(
-      (inputValue: string) => {
-        const newSelected = selected.includes(inputValue)
-          ? selected.filter((value) => value !== inputValue)
-          : [...selected, inputValue];
-  
-        setSelected(newSelected);
-      },
-      [selected]
-    );
-  
-    const onResetPage = useCallback(() => {
-      setPage(0);
-    }, []);
-  
-    const onChangePage = useCallback((event: unknown, newPage: number) => {
-      setPage(newPage);
-    }, []);
-  
-    const onChangeRowsPerPage = useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        onResetPage();
-      },
-      [onResetPage]
-    );
-  
-    return {
-      page,
-      order,
-      onSort,
-      orderBy,
-      selected,
-      rowsPerPage,
-      onSelectRow,
-      onResetPage,
-      onChangePage,
-      onSelectAllRows,
-      onChangeRowsPerPage,
-    };
-  }
+  const [page, setPage] = useState(0);
+  const [orderBy, setOrderBy] = useState('score'); // Default to 'score'
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [order, setOrder] = useState<'asc' | 'desc'>('desc'); // Default to 'desc'
+
+  const onSort = useCallback(
+    (id: string) => {
+      const isAsc = orderBy === id && order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(id);
+    },
+    [order, orderBy]
+  );
+
+  const onSelectAllRows = useCallback((checked: boolean, newSelecteds: string[]) => {
+    if (checked) {
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  }, []);
+
+  const onSelectRow = useCallback(
+    (inputValue: string) => {
+      const newSelected = selected.includes(inputValue)
+        ? selected.filter((value) => value !== inputValue)
+        : [...selected, inputValue];
+
+      setSelected(newSelected);
+    },
+    [selected]
+  );
+
+  const onResetPage = useCallback(() => {
+    setPage(0);
+  }, []);
+
+  const onChangePage = useCallback((event: unknown, newPage: number) => {
+    setPage(newPage);
+  }, []);
+
+  const onChangeRowsPerPage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      onResetPage();
+    },
+    [onResetPage]
+  );
+
+  return {
+    page,
+    order,
+    onSort,
+    orderBy,
+    selected,
+    rowsPerPage,
+    onSelectRow,
+    onResetPage,
+    onChangePage,
+    onSelectAllRows,
+    onChangeRowsPerPage,
+  };
+}
+
   
 
 

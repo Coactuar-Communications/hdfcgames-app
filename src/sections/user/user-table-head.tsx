@@ -57,7 +57,7 @@ export function UserTableHead({
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box sx={{ ...visuallyHidden }}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === 'asc' ? 'sorted ascending':'sorted descending'  }
                 </Box>
               ) : null}
             </TableSortLabel>

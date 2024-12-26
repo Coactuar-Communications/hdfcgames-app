@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { _tasks, _posts, _timeline } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { getData } from 'src/utils/request';
-
+import { Box } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
 import { AnalyticsNews } from '../analytics-news';
 import { AnalyticsTasks } from '../analytics-tasks';
 import { AnalyticsCurrentVisits } from '../analytics-current-visits';
@@ -45,17 +46,14 @@ export function OverviewAnalyticsView() {
   const [liveUsersCount, setLiveUsersCount] = useState<number>(0);
   const [loggedInUsersCount, setLoggedInUsersCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [topPlayers, setTopPlayers] = useState<Player[]>([]); // This state will store players with 'type' included
+  const [topPlayers, setTopPlayers] = useState<Player[]>([]);
   const [regUsers, setRegUsers] = useState<User[]>([]);
+  const [currentPage, setCurrentPage] = useState(1); // Move this here
+  const usersPerPage = 6;
 
-
-  useEffect(() => {
-    const getalluserdate = async () => {
-      const response = await getData('auth/getliveusers');
-      console.log(response);
-    };
-    getalluserdate();
-  });
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPage(value);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -65,7 +63,7 @@ export function OverviewAnalyticsView() {
         const loggedInUsersResponse = await getData('auth/getloggedinusers');
         const topPlayersResponse = await getData('games/gettoplayers');
         console.log('liveUsersResponse:', liveUsersResponse);
-console.log('loggedInUsersResponse:', loggedInUsersResponse);
+        console.log('loggedInUsersResponse:', loggedInUsersResponse);
         if (usersResponse?.isSuccess && Array.isArray(usersResponse.users)) {
           setRegUsers(usersResponse.users);
           setAllUsersCount(usersResponse.users.length);
@@ -73,11 +71,9 @@ console.log('loggedInUsersResponse:', loggedInUsersResponse);
         if (liveUsersResponse?.isSuccess && typeof liveUsersResponse.count === 'number') {
           setLiveUsersCount(liveUsersResponse.count);
         }
-        
         if (loggedInUsersResponse?.isSuccess && typeof loggedInUsersResponse.count === 'number') {
           setLoggedInUsersCount(loggedInUsersResponse.count);
         }
-        
         if (topPlayersResponse && Array.isArray(topPlayersResponse.data)) {
           setTopPlayers(topPlayersResponse.data);
         }
@@ -89,33 +85,12 @@ console.log('loggedInUsersResponse:', loggedInUsersResponse);
     };
     fetchUserData();
   }, []);
-  useEffect(() => {
-    const fetchTopPlayers = async () => {
-      try {
-        const topPlayersResponse = await getData('games/gettopplayers');
-        if (topPlayersResponse && Array.isArray(topPlayersResponse.data)) {
-          // Renamed 'formattedTopPlayers' to 'playerList' to avoid naming conflict
-          const playerList = topPlayersResponse.data.map((player: any, index: number) => ({
-            id: `player-${index + 1}`, 
-            type: index < 3 ? 'order1' : index < 6 ? 'order2' : 'order3', // Example logic to set the 'type' color
-            name: player.name || 'Unknown Player', 
-            game: player.game || 'Unknown Game', 
-            score: player.score || 0, 
-          }));
-          setTopPlayers(playerList); // Updated to use playerList
-        }
-      } catch (error) {
-        console.error('Error fetching top players:', error);
-      }
-    };
 
-    fetchTopPlayers();
-  }, []);
-  if (isLoading) {
-    return <Typography>Loading data...</Typography>;
-  }
- 
-  const userList: PostItemProps[] = regUsers.map((user) => ({
+  const startIndex = (currentPage - 1) * usersPerPage;
+  const endIndex = startIndex + usersPerPage;
+  const displayedUsers = regUsers.slice(startIndex, endIndex);
+
+  const userList: PostItemProps[] = displayedUsers.map((user) => ({
     id: user.id,
     title: user.name,
     description: `Game: ${user.choosegame} | Email: ${user.email}`,
@@ -125,15 +100,9 @@ console.log('loggedInUsersResponse:', loggedInUsersResponse);
     totalShares: Math.floor(Math.random() * 100),
   }));
 
-  // Extract and structure top 6 players for AnalyticsOrderTimeline
-  const formattedTopPlayers = topPlayers.slice(0, 6).map((player, index) => ({
-    id: `player-${index + 1}`,
-    type: 'order1', // Static for now; can be dynamic
-    title: player.name, // Assuming 'name' exists in the player object
-    time: player.score || 'N/A', // Use 'score' if available, otherwise 'N/A'
-  }));
-
-
+  if (isLoading) {
+    return <Typography>Loading data...</Typography>;
+  }
 
   return (
     <DashboardContent maxWidth="xl">
@@ -156,12 +125,10 @@ console.log('loggedInUsersResponse:', loggedInUsersResponse);
           <AnalyticsWidgetSummary
             title="Logged in users"
             percent={2.6}
-
             total={loggedInUsersCount || 0}
             color="secondary"
             icon={<img alt="icon" src="/assets/icons/glass/ic-glass-users.svg" />}
             chart={{ categories: [], series: [] }}
-
           />
         </Grid>
 
@@ -169,26 +136,41 @@ console.log('loggedInUsersResponse:', loggedInUsersResponse);
           <AnalyticsWidgetSummary
             title="Currently Logged in"
             percent={2.6}
-
             total={liveUsersCount || 0}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic-glass-users.svg" />}
             chart={{ categories: [], series: [] }}
-
           />
         </Grid>
         <Grid xs={12} md={6} lg={4}>
-          <AnalyticsOrderTimeline 
-            title="Overall Top 6 Players" 
-            list={topPlayers.slice(0, 6)} // No type error now!
-          />
+          <AnalyticsOrderTimeline title="Overall Top 6 Players" list={topPlayers.slice(0, 6)} />
         </Grid>
-
 
         <Grid xs={12} md={6} lg={8}>
           <AnalyticsNews title="Userlist" list={userList} />
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Pagination
+    count={Math.ceil(regUsers.length / usersPerPage)}
+    page={currentPage}
+    onChange={handlePageChange}
+    color="primary" // Color scheme (optional)
+    sx={{
+      '& .MuiPaginationItem-root': {
+        color: '#ffffff', // Default color for page numbers
+      },
+      '& .Mui-selected': {
+        color: '#ffffff', // Color of selected number
+        backgroundColor: '#1976d2', // Highlight color for the selected page
+      },
+      '& .MuiPaginationItem-previousNext': {
+        color: '#1976d2', // Color of arrows
+      },
+    }}
+  />
+          </Box>
         </Grid>
       </Grid>
     </DashboardContent>
   );
 }
+
