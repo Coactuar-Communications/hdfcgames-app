@@ -49,13 +49,13 @@ Quick Tips:
 • Experiment with the letters by quickly writing them down in a different order. For example, elzzup might not be recognizable right away, but once rearranged like 'puzzle', it becomes clear.
 `;
 const sudokuPointSystem = `
-Difficulty Level: The score is influenced by the difficulty of the puzzle. Higher difficulty yields a higher potential score.
-
 Time Taken: The faster a player completes the puzzle, the higher the score, rewarding quick completion.
 
 Hints/Auto-Solvers: Using hints or auto-solving features reduces the score as a penalty for external assistance.
 
 Bonus Time Completion: Completing the puzzle within a predefined bonus time grants an additional score boost.
+
+Difficulty Level: The score is influenced by the difficulty of the puzzle. Higher difficulty yields a higher potential score.
 `;
 const chessPointSystem = `
 Initial Score: The game starts with a score of 5000 points.
@@ -232,7 +232,7 @@ export function SelectGamePage() {
             {getPointSystem()}
           </Typography>
           <Button variant="contained" color="error" sx={{ mt: 2 }} onClick={handleModalClose1}>
-            Agree
+            Ok
           </Button>
         </Box>
       </Modal>
