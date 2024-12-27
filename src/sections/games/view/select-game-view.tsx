@@ -92,6 +92,7 @@ export function SelectGamePage() {
     };
     fetchUserData();
   }, []);
+  
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalOpen1 = () => setIsModalOpen1(true);
@@ -111,6 +112,8 @@ export function SelectGamePage() {
     if (selectedGame === 'scrabble') return scrabblePointSystem;
     return 'No guidelines available.';
   };
+  
+  
 
   if (isLoading) {
     return (
@@ -132,7 +135,7 @@ export function SelectGamePage() {
     <Box
       sx={{
         minHeight: '91vh',
-        backgroundImage: 'url(../../public/assets/images/img/game-bg.jpg)',
+        backgroundImage: 'url(/assets/images/img/game-bg.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'left bottom',
         backgroundRepeat: 'no-repeat',
@@ -148,10 +151,10 @@ export function SelectGamePage() {
             <img
               src={
                 selectedGame === 'sudoku'
-                  ? '../../public/assets/images/img/sudoku.png'
+                  ? '/assets/images/img/sudoku.png'
                   : selectedGame === 'chess'
-                  ? '../../public/assets/images/img/chess.png'
-                  : '../../public/assets/images/img/scrabble.png'
+                  ? '/assets/images/img/chess.png'
+                  : '/assets/images/img/scrabble.png'
               }
               alt={
                 selectedGame === 'sudoku'
