@@ -19,7 +19,7 @@ export function SudokuLiveEmbed() {
         sx={{ gap: 3 }}
       >
         {/* Left: Embedded Game */}
-    
+
           <div style={{ position: 'relative', width: '100%', height: '500px' }}>
             <iframe
               src="/games/sudoku/index.html"
@@ -30,7 +30,7 @@ export function SudokuLiveEmbed() {
               title="Embedded Game"
             />
           </div>
-        
+
       </Box>
     </DashboardContent>
   );

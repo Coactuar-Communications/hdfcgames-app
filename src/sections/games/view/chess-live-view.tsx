@@ -8,9 +8,9 @@ export function ChessLive()  {
         <Typography variant="h4" sx={{ mb: 5 }} color="#ffffff">
           Games
         </Typography>
-  
+
         {/* <CartIcon totalItems={8} /> */}
-  
+
         <Box
           display="flex"
           alignItems="center"
@@ -31,6 +31,5 @@ export function ChessLive()  {
     </Box>
     </DashboardContent>
   )};
-  
+
 //   export default ChessEmbed;
-  

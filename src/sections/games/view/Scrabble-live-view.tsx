@@ -19,10 +19,10 @@ export function ScrabbleLiveEmbed() {
         sx={{ gap: 3 }}
       >
         {/* Left: Embedded Game */}
-    
+
           <div style={{ position: 'relative', width: '100%', height: '500px' }}>
             <iframe
-              src="/games/sudoku/index.html"
+              src="/games/scrabble/index.html"
               width="100%"
               height="100%"
               style={{ border: 'none' }}
@@ -30,7 +30,7 @@ export function ScrabbleLiveEmbed() {
               title="Embedded Game"
             />
           </div>
-        
+
       </Box>
     </DashboardContent>
   );
