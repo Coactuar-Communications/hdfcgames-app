@@ -1,7 +1,7 @@
 import { DashboardContent } from 'src/layouts/dashboard';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { UserViewScore } from 'src/sections/user/view'; // Adjust path if needed
+import { UserViewScore } from 'src/sections/user/view';
 
 export function ScrabbleLiveEmbed() {
   return (
@@ -9,8 +9,6 @@ export function ScrabbleLiveEmbed() {
       <Typography variant="h4" sx={{ mb: 5 }} color="#ffffff">
         Games
       </Typography>
-
-      {/* Flexbox container for the game and leaderboard */}
       <Box
         display="flex"
         flexDirection="row"
