@@ -9,7 +9,7 @@ import { Iconify } from 'src/components/iconify';
 import { useRouter } from 'src/routes/hooks';
 import { postData } from 'src/utils/request';
 import { validatePassword } from '../../utils/validation';
-import analyt from '/assets/images/img/logo2.jpg';
+import analyt from '../../assets/images/img/logo2.jpg';
 
 // ----------------------------------------------------------------------
 

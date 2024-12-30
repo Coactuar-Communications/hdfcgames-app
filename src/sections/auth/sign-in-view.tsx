@@ -13,7 +13,7 @@ import Alert, { AlertColor } from '@mui/material/Alert';
 import { useRouter } from 'src/routes/hooks';
 import { Iconify } from 'src/components/iconify';
 import { postData } from 'src/utils/request';
-import analyt from '/assets/images/img/logo2.jpg';
+import analyt from '../../assets/images/img/logo2.jpg';
 
 export function SignInView() {
   const router = useRouter();

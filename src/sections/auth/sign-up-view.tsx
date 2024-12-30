@@ -17,7 +17,7 @@ import Select,{ SelectChangeEvent } from '@mui/material/Select';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import analyt from '/assets/images/img/logo2.jpg';
+import analyt from '../../assets/images/img/logo2.jpg';
 import {
   validateEmail,
   validatePassword,
