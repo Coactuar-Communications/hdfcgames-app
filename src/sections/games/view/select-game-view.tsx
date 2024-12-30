@@ -8,6 +8,7 @@ import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom';
 import { getData } from 'src/utils/request';
 import { UserViewScore } from 'src/sections/user/view';
+import analyt from '../../../assets/images/img/logo2.jpg';
 
 const sudokuGuidelines = `
 • Once you enter the sudoku game, you will see a 9x9 grid containing 9 (3x3) boxes. Some squares will already contain numbers.
@@ -58,13 +59,23 @@ Bonus Time Completion: Completing the puzzle within a predefined bonus time gran
 Difficulty Level: The score is influenced by the difficulty of the puzzle. Higher difficulty yields a higher potential score.
 `;
 const chessPointSystem = `
-Initial Score: The game starts with a score of 5000 points.
+Chess Game Point System
+Initial Score:
 
-Score Reduction Rate: The score decreases at a rate of 10 points per second as the game progresses.
+Every player begins with a score of 5000 points.
+Time-Based Deduction:
 
-Duration Factor: The final score depends on the duration of the game, with longer playtimes resulting in a greater reduction due to the continuous 10-point decrement per second.
+The score decreases at a rate of 10 points per second as the game progresses.
+Duration Impact:
 
-Additional Adjustments: The final score may be adjusted by other game mechanics, which can add, subtract, or otherwise modify the score.
+The longer the game duration, the greater the deduction from the initial score.
+Final Score Calculation:
+
+The final score is determined by subtracting the time-based deductions from the initial score: Final Score=5000−(10×Game Duration in Seconds)
+Adjustments for Game Mechanics:
+
+Additional adjustments may be applied based on specific game mechanics or events, such as bonuses, penalties, or achievements during the game.
+
 `;
 const scrabblePointSystem = `
 SCRABBLE
@@ -148,64 +159,79 @@ export function SelectGamePage() {
         <Grid container spacing={3}>
           {/* Left Column */}
           <Grid item xs={12} md={6} textAlign="center">
-            <img
-              src={
-                selectedGame === 'sudoku'
-                  ? '/assets/images/img/sudoku.png'
-                  : selectedGame === 'chess'
-                  ? '/assets/images/img/chess.png'
-                  : '/assets/images/img/scrabble.png'
-              }
-              alt={
-                selectedGame === 'sudoku'
-                  ? 'Sudoku board'
-                  : selectedGame === 'chess'
-                  ? 'Chess pieces'
-                  : 'Scrabble board'
-              }
-              style={{
-                width: '100%',
-                maxWidth: '300px',
-                height: 'auto',
-                marginBottom: '20px',
-                marginTop: '100px',
-              }}
-            />
-            <Box sx={{ mt: 'auto', maxWidth: '300px', mx: 'auto' }}>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ mb: 2, width: '100%' }}
-                onClick={() => navigate(`/${selectedGame}-game`)}
-              >
-                Practice {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ mb: 2, width: '100%' }}
-                onClick={() => navigate(`/${selectedGame}-live-game`)}
-              >
-                Live {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ mb: 2, width: '100%' }}
-                onClick={handleModalOpen}
-              >
-                Game rules
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ width: '100%' }}
-                onClick={handleModalOpen1}
-              >
-                Point system
-              </Button>
-            </Box>
-          </Grid>
+  <Box sx={{ position: 'relative', maxWidth: '300px', mx: 'auto' }}>
+    <img
+      src={
+        selectedGame === 'sudoku'
+          ? '/assets/images/img/sudoku.png'
+          : selectedGame === 'chess'
+          ? '/assets/images/img/chess.png'
+          : '/assets/images/img/scrabble.png'
+      }
+      alt={
+        selectedGame === 'sudoku'
+          ? 'Sudoku board'
+          : selectedGame === 'chess'
+          ? 'Chess pieces'
+          : 'Scrabble board'
+      }
+      style={{
+        width: '100%',
+        maxWidth: '300px',
+        height: 'auto',
+        marginBottom: '20px',
+        marginTop: '100px',
+      }}
+    />
+    {/* Logo positioned on top of the image */}
+    <img
+      src={analyt} // Replace with your logo path
+      alt="Game Logo"
+      style={{
+        position: 'absolute',
+        top: '10px', // Adjust the position as needed
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '100%', // Adjust size as needed
+      }}
+    />
+  </Box>
+  <Box sx={{ mt: 'auto', maxWidth: '300px', mx: 'auto' }}>
+    <Button
+      variant="contained"
+      color="error"
+      sx={{ mb: 2, width: '100%' }}
+      onClick={() => navigate(`/${selectedGame}-game`)}
+    >
+      Practice {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
+    </Button>
+    <Button
+      variant="contained"
+      color="error"
+      sx={{ mb: 2, width: '100%' }}
+      onClick={() => navigate(`/${selectedGame}-live-game`)}
+    >
+      Live {selectedGame.charAt(0).toUpperCase() + selectedGame.slice(1)} Game
+    </Button>
+    <Button
+      variant="contained"
+      color="error"
+      sx={{ mb: 2, width: '100%' }}
+      onClick={handleModalOpen}
+    >
+      Game rules
+    </Button>
+    <Button
+      variant="contained"
+      color="error"
+      sx={{ width: '100%' }}
+      onClick={handleModalOpen1}
+    >
+      Point system
+    </Button>
+  </Box>
+</Grid>
+
           {/* Right Column */}
           <Grid item xs={12} md={6}>
             <UserViewScore />

@@ -19,6 +19,10 @@ import { HeaderSection } from '../core/header-section';
 import { AccountPopover } from '../components/account-popover';
 import { LanguagePopover } from '../components/language-popover';
 import { NotificationsPopover } from '../components/notifications-popover';
+import logohdfc from '../../assets/images/img/hdfc-bank-logo-png.png';
+import analyt from '../../assets/images/img/logo2.png';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -109,57 +113,92 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
 
   return (
     <LayoutSection
-      headerSection={
-        <HeaderSection
-          layoutQuery={layoutQuery}
-          slotProps={{
-            container: {
-              maxWidth: false,
-              sx: { px: { [layoutQuery]: 5 } },
+    headerSection={
+      <HeaderSection
+        layoutQuery={layoutQuery}
+        slotProps={{
+          container: {
+            maxWidth: false,
+            sx: { 
+              px: { [layoutQuery]: 5 },
+              backgroundColor: 'white',
+              color: theme.palette.text.primary,
+              boxShadow: theme.shadows[1],
             },
-          }}
-          sx={header?.sx}
-          slots={{
-            topArea: (
-              <Alert severity="info" sx={{ display: 'none', borderRadius: 0 }}>
-                This is an info Alert.
-              </Alert>
-            ),
-            leftArea: (
-              <>
+          },
+        }}
+        sx={{
+          ...header?.sx,
+        }}
+        slots={{
+          topArea: (
+            <Alert severity="info" sx={{ display: 'none', borderRadius: 0 }} >
+              This is an info Alert.
+            </Alert>
+          ),
+          leftArea: (
+            <>
+              {!(roles.includes('Admin') || roles.includes('SuperAdmin')) && (
+                <Box
+                  component="img"
+                  src={logohdfc} // Path to your logo
+                  alt="Logo"
+                  sx={{
+                    height: 60,
+                    marginRight: 2,
+                    display: { xs: 'block', lg: 'block' },
+                  }}
+                />
+              )}
+              
+              {/* Show MenuButton only for Admin/SuperAdmin roles on mobile */}
+              {(roles.includes('Admin') || roles.includes('SuperAdmin')) && (
                 <MenuButton
                   onClick={() => setNavOpen(true)}
                   sx={{
                     ml: -1,
-                    [theme.breakpoints.up(layoutQuery)]: { display: 'none' },
+                    display: { xs: 'block', lg: 'none' }, // Only show on mobile view (xs breakpoint)
                   }}
                 />
-                <NavMobile
-                  data={navData}
-                  open={navOpen}
-                  onClose={() => setNavOpen(false)}
-                  workspaces={_workspaces}
-                />
-              </>
-            ),
-            rightArea: (
-              <Box gap={1} display="flex" alignItems="center">
-                {/* <Searchbar /> */}
-                <AccountPopover
-                  data={[
-                    {
-                      label: 'Home',
-                      href: '/',
-                      icon: <Iconify width={22} icon="solar:home-angle-bold-duotone" />,
-                    },
-                  ]}
-                />
-              </Box>
-            ),
-          }}
-        />
+              )}
+              
+              <NavMobile
+                data={navData}
+                open={navOpen}
+                onClose={() => setNavOpen(false)}
+                workspaces={_workspaces}
+              />
+            </>
+          ),
+          rightArea: (
+            <Box gap={1} display="flex" alignItems="center">
+                  {/* <Box
+                    component="img"
+                    src={analyt}
+                    alt="Right Logo"
+                    sx={{
+                      height: 40,
+                      marginLeft: 2,
+                    }}
+                  /> */}
+
+              <AccountPopover
+                data={[{
+                  label: 'Home',
+                  href: '/',
+                  icon: <Iconify width={22} icon="solar:home-angle-bold-duotone" />,
+                }]}
+              />
+            </Box>
+          ),
+        }}
+      />
+    }
+    sidebarSection={
+        roles.includes('Admin') || roles.includes('SuperAdmin') ? (
+          <NavDesktop data={navData} layoutQuery={layoutQuery} workspaces={_workspaces} />
+        ) : null
       }
-      sidebarSection={<NavDesktop data={navData} layoutQuery={layoutQuery} workspaces={_workspaces} />}
       footerSection={null}
       cssVars={{
         '--layout-nav-vertical-width': '300px',
@@ -170,7 +209,15 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
       sx={{
         [`& .${layoutClasses.hasSidebar}`]: {
           [theme.breakpoints.up(layoutQuery)]: {
-            pl: 'var(--layout-nav-vertical-width)',
+            pl: roles.includes('Admin') || roles.includes('SuperAdmin') ? 'var(--layout-nav-vertical-width)' : 0,
+          },
+        },
+        // Make sure the game section takes full width on mobile
+        [`& .${layoutClasses.hasSidebar} + .${layoutClasses.content}`]: {
+          [theme.breakpoints.down('md')]: {
+            paddingLeft: 0, // Remove left padding on mobile
+            paddingRight: 0, // Remove right padding on mobile
+            width: '100%', // Ensure it takes full width
           },
         },
         '&::before': {
@@ -186,9 +233,19 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
         },
         ...sx,
       }}
+      
     >
       <Main>{children}</Main>
     </LayoutSection>
   );
+  
+  
 }
+
+//     >
+//       <Main>{children}</Main>
+//     </LayoutSection>
+//   );
+  
+// }
    

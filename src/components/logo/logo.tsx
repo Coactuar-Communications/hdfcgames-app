@@ -9,7 +9,7 @@ import { RouterLink } from 'src/routes/components';
 
 import { logoClasses } from './classes';
 import logohdfc from '../../assets/images/img/hdfc-bank-logo-png.png';
-import analyt from '../../assets/images/img/logo2.jpg';
+import analyt from '../../assets/images/img/HDFC-analytiq.jpg';
 
 // ----------------------------------------------------------------------
 

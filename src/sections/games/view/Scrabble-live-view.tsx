@@ -1,14 +1,31 @@
 import { DashboardContent } from 'src/layouts/dashboard';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 import { UserViewScore } from 'src/sections/user/view'; // Adjust path if needed
+import { useNavigate } from 'react-router-dom';
+
 
 export function ScrabbleLiveEmbed() {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate('/select-game'); // Replace '/selectgame' with the actual route for the Select Game page
+  };
+
   return (
     <DashboardContent>
-      <Typography variant="h4" sx={{ mb: 5 }} color="#ffffff">
-        Games
-      </Typography>
+      <Button
+        // startIcon={<ArrowBackIcon />}
+        variant="contained"
+        color="error"
+        onClick={handleBack}
+       
+        sx={{mt:2, mb: 2, width: '10%' }}
+ 
+      >
+        Back
+</Button>
 
       {/* Flexbox container for the game and leaderboard */}
       <Box

@@ -1,0 +1,49 @@
+%!Adobe-FontList 1.23
+%Locale:0x809
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:HelveticaLTPro-Bold
+FamilyName:Helvetica LT Pro
+StyleName:Bold
+FullName:Helvetica LT Pro Bold
+MenuName:Helvetica LT Pro
+StyleBits:2
+WritingScript:Roman
+OutlineFileName:Y:\Marketing\Group Marketing\Files for India\SP112(EN)-01-B Folder\Document fonts\HelveticaLTPro-Bold.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:101136
+FileModTime:1519744536
+WeightClass:700
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Helvetica LT Pro Bold
+NameArray:0,Win,1,Helvetica LT Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:HelveticaLTPro-Roman
+FamilyName:Helvetica LT Pro
+StyleName:Roman
+FullName:Helvetica LT Pro
+MenuName:Helvetica LT Pro
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:Y:\Marketing\Group Marketing\Files for India\SP112(EN)-01-B Folder\Document fonts\HelveticaLTPro-Roman.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:102744
+FileModTime:1519744536
+WeightClass:400
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Helvetica LT Pro
+NameArray:0,Win,1,Helvetica LT Pro
+%EndFont
+
