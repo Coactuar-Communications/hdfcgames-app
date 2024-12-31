@@ -18,9 +18,9 @@ export function ChessEmbed()  {
         variant="contained"
         color="error"
         onClick={handleBack}
-       
+
         sx={{mt:2, mb: 2, width: '10%' }}
- 
+
       >
         Back
 </Button>
@@ -36,7 +36,7 @@ export function ChessEmbed()  {
         >
     <div style={{ position: 'relative', width: '100%', height: '600px', backgroundColor: 'blue' }}>
       <iframe
-        src="/practicegames/chess/index.html"
+        src="https://games.coact.live/analytiq5/practicegames/chess/index.html"
         width="100%"
         height="100%"
         style={{ border: 'none' }}

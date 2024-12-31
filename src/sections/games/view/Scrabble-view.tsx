@@ -18,9 +18,9 @@ export function ScrabbleEmbed()  {
         variant="contained"
         color="error"
         onClick={handleBack}
-       
+
         sx={{mt:2, mb: 2, width: '10%' }}
- 
+
       >
         Back
 </Button>
@@ -35,13 +35,13 @@ export function ScrabbleEmbed()  {
         >
     <div style={{ position: 'relative', width: '100%', height: '700px' }}>
     <iframe
-      src="/practicegames/scrabble/src/index.html"
+      src="https://games.coact.live/analytiq5/practicegames/scrabble/src/index.html"
       width="100%"
       height="100%"
       style={{ border: 'none' }}
       sandbox="allow-scripts allow-same-origin"
       title="Embedded Game"
-    
+
     />
   </div>
     </Box>

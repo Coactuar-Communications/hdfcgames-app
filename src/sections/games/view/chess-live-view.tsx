@@ -18,9 +18,9 @@ export function ChessLive()  {
         variant="contained"
         color="error"
         onClick={handleBack}
-       
+
         sx={{mt:2, mb: 2, width: '10%' }}
- 
+
       >
         Back
 </Button>
@@ -36,7 +36,7 @@ export function ChessLive()  {
         >
     <div style={{ position: 'relative', width: '100%', height: '600px', backgroundColor: 'blue' }}>
       <iframe
-        src="/games/chess/index.html"
+        src="https://games.coact.live/analytiq5/games/chess/index.html"
         width="100%"
         height="100%"
         style={{ border: 'none' }}
