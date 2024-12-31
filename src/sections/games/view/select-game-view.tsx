@@ -86,7 +86,53 @@ Chess Game Point System
 
 `;
 const scrabblePointSystem = `
-SCRABBLE
+1. Letter Values:
+
+   • 1 point: A, E, I, L, N, O, R, S, T, U
+   • 2 points: D, G
+   • 3 points: B, C, M, P
+   • 4 points: F, H, V, W, Y
+   • 5 points: K
+   • 8 points: J, X
+   • 10 points: Q, Z
+
+
+
+2. Scoring Rationale:
+The scoring system is designed to balance the frequency of letters in the language with their difficulty of use:
+
+   • Common letters (like E, A, I, O) are worth less points because they're easier to play.
+   • Rare letters (like Q, Z, J, X) are worth more points because they're harder to use in words.
+
+
+
+3. Word Score Calculation:
+To calculate a word's base score, you sum the points of each letter in the word. For example:
+
+   • "SCRABBLE" = (S:1 + C:3 + R:1 + A:1 + B:3 + B:3 + L:1 + E:1) = 14 points
+
+
+
+4. Additional Scoring Factors (not shown in this simplified code):
+
+   • Bonus squares: The actual game board has bonus squares that can multiply letter or word scores.
+   • Word length bonuses: In many versions, using all 7 tiles from your rack gives a 50-point bonus.
+
+
+
+5. Strategic Implications:
+
+   • High-value letters (Q, Z, J, X) can significantly boost your score but are harder to place.
+   • Efficient use of low-value letters is crucial for consistent scoring.
+   • Placing high-value letters on bonus squares can lead to very high-scoring plays.
+
+
+
+6. Blank Tiles:
+The code doesn't explicitly show blank tiles, but in standard Scrabble:
+
+   • Blank tiles can represent any letter but are worth 0 points.
+   • They're valuable for flexibility but don't contribute to the score directly.
 `;
 
 
