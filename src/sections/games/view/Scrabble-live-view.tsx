@@ -37,9 +37,9 @@ export function ScrabbleLiveEmbed() {
       >
         {/* Left: Embedded Game */}
 
-          <div style={{ position: 'relative', width: '100%', height: '500px' }}>
+          <div style={{ position: 'relative', width: '100%', height: '700px' }}>
             <iframe
-              src="/games/scrabble/index.html"
+              src="/games/scrabble/src/index.html"
               width="100%"
               height="100%"
               style={{ border: 'none' }}

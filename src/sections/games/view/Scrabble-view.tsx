@@ -33,14 +33,15 @@ export function ScrabbleEmbed()  {
           justifyContent="flex-end"
           sx={{ mb: 5 }}
         >
-    <div style={{ position: 'relative', width: '100%', height: '500px' }}>
+    <div style={{ position: 'relative', width: '100%', height: '700px' }}>
     <iframe
-      src="/practicegames/scrabble/index.html"
+      src="/practicegames/scrabble/src/index.html"
       width="100%"
       height="100%"
       style={{ border: 'none' }}
       sandbox="allow-scripts allow-same-origin"
       title="Embedded Game"
+    
     />
   </div>
     </Box>

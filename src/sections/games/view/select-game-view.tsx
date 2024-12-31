@@ -22,10 +22,10 @@ const sudokuGuidelines = `
 const chessGuidelines = `
 Guidelines for Chess:
 
-• Once you select Chess, a 10-minute timer starts running. The participant must complete the game within the given time duration.
-• In case of Checkmate, the system directly submits the score; you need to click on Exit.
+1. Once you select Chess, a 10-minute timer starts running. The participant must complete the game within the given time duration.
+2. In case of Checkmate, the system directly submits the score; you need to click on Exit.
 
-• Chess Moves:
+3. Chess Moves:
         • King can move exactly one square horizontally, vertically, or diagonally. At most once in every game, each king is allowed to make a special move, known as castling.
         • Queen can move any number of vacant squares diagonally, horizontally, or vertically.
         • Rook can move any number of vacant squares vertically or horizontally. It also moves during castling.
@@ -50,31 +50,39 @@ Quick Tips:
 • Experiment with the letters by quickly writing them down in a different order. For example, elzzup might not be recognizable right away, but once rearranged like 'puzzle', it becomes clear.
 `;
 const sudokuPointSystem = `
-Time Taken: The faster a player completes the puzzle, the higher the score, rewarding quick completion.
+Sudoku Scoring Rules
 
-Hints/Auto-Solvers: Using hints or auto-solving features reduces the score as a penalty for external assistance.
+1. Base Score:
+   • The score starts with a base value determined by the difficulty level of the puzzle.
 
-Bonus Time Completion: Completing the puzzle within a predefined bonus time grants an additional score boost.
+2. Time-Based Adjustment:
+   • The time taken to complete the puzzle reduces the score. The penalty rate increases with higher difficulty levels.
 
-Difficulty Level: The score is influenced by the difficulty of the puzzle. Higher difficulty yields a higher potential score.
+3. Hints/Auto-Solvers Penalty:
+   • Using hints or auto-solvers incurs a penalty, with greater deductions for more assistance.
+
+4. Bonus Time Completion:
+   • Completing the puzzle within a predefined bonus time for each difficulty level awards extra points.
+
+5. Final Score Calculation:
+   • The final score is a combination of the base score, deductions for time taken and assistance used, and any bonus for timely completion.
 `;
 const chessPointSystem = `
 Chess Game Point System
-Initial Score:
+1. Initial Score:
+   • Every player begins with a score of 5000 points.
 
-Every player begins with a score of 5000 points.
-Time-Based Deduction:
+2. Time-Based Deduction:
+   • The score decreases at a rate of 10 points per second as the game progresses.
 
-The score decreases at a rate of 10 points per second as the game progresses.
-Duration Impact:
+3. Duration Impact:
+   • The longer the game duration, the greater the deduction from the initial score.
 
-The longer the game duration, the greater the deduction from the initial score.
-Final Score Calculation:
+4. Final Score Calculation:
+   • The final score is determined by subtracting the time-based deductions from the initial score: Final Score=5000−(10×Game Duration in Seconds)
 
-The final score is determined by subtracting the time-based deductions from the initial score: Final Score=5000−(10×Game Duration in Seconds)
-Adjustments for Game Mechanics:
-
-Additional adjustments may be applied based on specific game mechanics or events, such as bonuses, penalties, or achievements during the game.
+5. Adjustments for Game Mechanics:
+   • Additional adjustments may be applied based on specific game mechanics or events, such as bonuses, penalties, or achievements during the game.
 
 `;
 const scrabblePointSystem = `
@@ -275,8 +283,11 @@ const modalStyle = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: { xs: '90%', sm: '70%', md: '50%' },
+  maxHeight: '90vh', // Ensure the modal doesn't exceed 90% of the viewport height
+  overflowY: 'auto', // Enable vertical scrolling when content overflows
   bgcolor: 'background.paper',
   borderRadius: 2,
   boxShadow: 24,
   p: 4,
 };
+
