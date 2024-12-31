@@ -134,13 +134,13 @@ function RedipsUI()
         html += '</div></td></tr>';
         html += hr;
 
-        html += '<tr><td>'+t('Playing at level:')+'</td><td>';
-        html += '<span style="font-size:28px;" id="idlevel">1</span>';
-        html += '<span class="link" onClick="g_bui.levelUp()">';
-        html += '<img src="../pics/up.png" /></span>';
-        html += '<span class="link" onClick="g_bui.levelDn()">';
-        html += '<img src="../pics/dn.png" /></span>';
-        html += hr;
+        // html += '<tr><td>'+t('Playing at level:')+'</td><td>';
+        // html += '<span style="font-size:28px;" id="idlevel">1</span>';
+        // html += '<span class="link" onClick="g_bui.levelUp()">';
+        // html += '<img src="../pics/up.png" /></span>';
+        // html += '<span class="link" onClick="g_bui.levelDn()">';
+        // html += '<img src="../pics/dn.png" /></span>';
+        // html += hr;
 
         html += '<tr><td>'+t('Computer last score:')+'</td><td id="loscore">0</td></tr>';
         html += '<tr bgcolor="#fefeba"><td>'+t('Computer total score:')+'</td>';
