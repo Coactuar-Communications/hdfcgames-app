@@ -21,9 +21,9 @@ export function SudokuLiveEmbed() {
         variant="contained"
         color="error"
         onClick={handleBack}
-       
+
         sx={{mt:2, mb: 2, width: '10%' }}
- 
+
       >
         Back
       </Button>
@@ -40,7 +40,7 @@ export function SudokuLiveEmbed() {
 
           <div style={{ position: 'relative', width: '100%', height: '500px' }}>
             <iframe
-              src="/games/sudoku/index.html"
+              src="https://games.coact.live/analytiq5/games/sudoku/index.html"
               width="100%"
               height="100%"
               style={{ border: 'none' }}

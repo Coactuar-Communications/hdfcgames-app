@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, Method } from 'axios';
 import store from '../store';
 import { showLoader, hideLoader } from '../store/toastSlice';
 
-const BASE_URL = "http://localhost:9000/apis";
+const BASE_URL = "https://games.coact.live/apis";
 
 interface ResponseData {
   isSuccess?: boolean;
@@ -40,7 +40,7 @@ async function postData(
       data: payload,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('USERTOKEN')}`,
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
       },
     });
 

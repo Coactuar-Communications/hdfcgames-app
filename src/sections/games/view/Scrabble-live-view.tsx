@@ -20,9 +20,9 @@ export function ScrabbleLiveEmbed() {
         variant="contained"
         color="error"
         onClick={handleBack}
-       
+
         sx={{mt:2, mb: 2, width: '10%' }}
- 
+
       >
         Back
 </Button>
@@ -39,7 +39,7 @@ export function ScrabbleLiveEmbed() {
 
           <div style={{ position: 'relative', width: '100%', height: '700px' }}>
             <iframe
-              src="/games/scrabble/src/index.html"
+              src="https://games.coact.live/analytiq5/games/scrabble/src/index.html"
               width="100%"
               height="100%"
               style={{ border: 'none' }}

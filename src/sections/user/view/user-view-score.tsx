@@ -48,26 +48,28 @@ export function UserViewScore() {
   // 2️⃣ Fetch Leaderboard Data When choosegame is Available
   useEffect(() => {
     const fetchLeaderboard = async () => {
-        if (!choosegame) return; // Wait for choosegame to be set
+      if (!choosegame) return; // Wait for choosegame to be set
 
-        const normalizedChoosegame = choosegame.toLowerCase();
+      const normalizedChoosegame = choosegame.toLowerCase();
 
-        try {
-          let endpoint = '';
-          if (normalizedChoosegame === 'sudoku') {
-            endpoint = 'games/getsudukuleaderboard';
-          } else if (normalizedChoosegame === 'chess') {
-            endpoint = 'games/getchessleaderboard';
-          } else {
-            console.error('Invalid game selected:', choosegame);
-            return;
-          }
+      try {
+        let endpoint = '';
+        if (normalizedChoosegame === 'sudoku') {
+          endpoint = 'games/getsudukuleaderboard';
+        } else if (normalizedChoosegame === 'chess') {
+          endpoint = 'games/getchessleaderboard';
+        } else if (normalizedChoosegame === 'scrabble') {
+          endpoint = 'games/getscrabbleleaderboard';
+        } else {
+          console.error('Invalid game selected:', choosegame);
+          return;
+        }
 
-          const response = await getData(endpoint);
+        const response = await getData(endpoint);
 
-          if (response && response.data) {
-            // Sort data by score in descending order
-            const sortedData = response.data
+        if (response && response.data) {
+          // Sort data by score in descending order
+          const sortedData = response.data
             .map((user: UserProps) => ({
               ...user,
               score: Math.trunc(Number(user.score)), // Store only the integer part of the score
@@ -81,30 +83,20 @@ export function UserViewScore() {
           // Add rank based on sorted data
           const rankedData = sortedData.map((user: UserProps, index: number) => ({
             ...user,
-            rank: index + 1,  // Rank starts from 1
+            rank: index + 1, // Rank starts from 1
           }));
 
-          setLeaderboardData(rankedData);  // Set the leaderboard data with ranks
-            // Set the sorted leaderboard data
-
-          }
-        } catch (error) {
-          console.error('Error fetching leaderboard data:', error);
+          setLeaderboardData(rankedData); // Set the leaderboard data with ranks
+          // Set the sorted leaderboard data
         }
-      };
-
-
-
+      } catch (error) {
+        console.error('Error fetching leaderboard data:', error);
+      }
+    };
 
     fetchLeaderboard();
   }, [choosegame]); // Runs only when choosegame changes
-   // Runs only when choosegame changes
-
-
-
-
-
-
+  // Runs only when choosegame changes
 
   const dataFiltered: UserProps[] = applyFilter({
     inputData: leaderboardData,
@@ -121,19 +113,17 @@ export function UserViewScore() {
         {choosegame ? choosegame.toUpperCase() : 'Loading...'} -Leaderboard
         </Typography> */}
         <Box
-
-  display="flex"
-  alignItems="center"
-  justifyContent="center"
- // Full viewport height
->
-  <img
-    src="/assets/images/img/leaderboard-image.png"
-    style={{ width: '70%', height: 'auto',marginTop: '50px' }}
-    alt="Leaderboard"
-
-  />
-</Box>
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          // Full viewport height
+        >
+          <img
+            src="/assets/images/img/leaderboard-image.png"
+            style={{ width: '70%', height: 'auto', marginTop: '50px' }}
+            alt="Leaderboard"
+          />
+        </Box>
         {/* <Button
           variant="contained"
           color="inherit"
@@ -153,70 +143,70 @@ export function UserViewScore() {
           }}
         /> */}
 
-<Scrollbar>
-  <Box
-    sx={{
-      width: '100%',
-      overflowX: 'auto',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: { xs: 1, sm: 2, md: 3 }, // Adjust padding for different breakpoints
-    }}
-  >
-    <TableContainer
-      sx={{
-        minWidth: { xs: 300, sm: 400, md: 500 }, // Adjust minWidth for screen sizes
-        maxWidth: '100%', // Ensure it doesn't overflow
-        overflowX: 'auto',
-      }}
-    >
-      <Table>
-        <UserTableHeadScore
-          order={table.order}
-          orderBy={table.orderBy}
-          rowCount={leaderboardData.length}
-          numSelected={table.selected.length}
-          onSort={table.onSort}
-          onSelectAllRows={(checked) =>
-            table.onSelectAllRows(
-              checked,
-              leaderboardData.map((user) => user.id)
-            )
-          }
-          headLabel={[
-            { id: 'rank', label: 'Rank' },
-            { id: 'name', label: 'Name' },
-            { id: 'email', label: 'Employee code' },
-            { id: 'score', label: 'Score' },
-            { id: 'time', label: 'Time' },
-          ]}
-        />
-        <TableBody>
-          {dataFiltered
-            .slice(
-              table.page * table.rowsPerPage,
-              table.page * table.rowsPerPage + table.rowsPerPage
-            )
-            .map((row, index) => (
-              <UserTableRowScore
-                key={row.id}
-                row={{
-                  ...row,
-                  time: `${row.time}m`, // Add 'm' in front of the time
-                }}
-                selected={table.selected.includes(row.id)}
-                onSelectRow={() => table.onSelectRow(row.id)}
-                rank={index + 1} // Pass the rank (index + 1 for 1-based ranking)
-              />
-            ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  </Box>
-</Scrollbar>
+        <Scrollbar>
+          <Box
+            sx={{
+              width: '100%',
+              overflowX: 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: { xs: 1, sm: 2, md: 3 }, // Adjust padding for different breakpoints
+            }}
+          >
+            <TableContainer
+              sx={{
+                minWidth: { xs: 300, sm: 400, md: 500 }, // Adjust minWidth for screen sizes
+                maxWidth: '100%', // Ensure it doesn't overflow
+                overflowX: 'auto',
+              }}
+            >
+              <Table>
+                <UserTableHeadScore
+                  order={table.order}
+                  orderBy={table.orderBy}
+                  rowCount={leaderboardData.length}
+                  numSelected={table.selected.length}
+                  onSort={table.onSort}
+                  onSelectAllRows={(checked) =>
+                    table.onSelectAllRows(
+                      checked,
+                      leaderboardData.map((user) => user.id)
+                    )
+                  }
+                  headLabel={[
+                    { id: 'rank', label: 'Rank' },
+                    { id: 'name', label: 'Name' },
+                    { id: 'email', label: 'Employee code' },
+                    { id: 'score', label: 'Score' },
+                    { id: 'time', label: 'Time' },
+                  ]}
+                />
+                <TableBody>
+                  {dataFiltered
+                    .slice(
+                      table.page * table.rowsPerPage,
+                      table.page * table.rowsPerPage + table.rowsPerPage
+                    )
+                    .map((row, index) => (
+                      <UserTableRowScore
+                        key={row.id}
+                        row={{
+                          ...row,
+                          time: `${row.time}m`, // Add 'm' in front of the time
+                        }}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        rank={index + 1} // Pass the rank (index + 1 for 1-based ranking)
+                      />
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Scrollbar>
 
-{/* 
+        {/*
         <TablePagination
           component="div"
           page={table.page}
@@ -296,8 +286,3 @@ export function useScoreTable() {
     onChangeRowsPerPage,
   };
 }
-
-  
-
-
-
