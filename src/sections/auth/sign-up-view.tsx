@@ -270,7 +270,10 @@ export function SignUpView() {
 </LoadingButton>
       </Box>
       {/* Snackbar for success and error messages */}
-      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleSnackbarClose}>
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Position the Snackbar
+      
+      >
         <Alert onClose={handleSnackbarClose} severity={snackbar.severity} variant="filled" sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>

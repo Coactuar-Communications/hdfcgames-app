@@ -34,20 +34,49 @@ Guidelines for Chess:
         • Pawns can move forward one square if that square is unoccupied. If it has not yet moved, the pawn has the option of moving two squares forward provided both squares in front of the pawn are unoccupied. A pawn cannot move backward. Pawns are the only pieces that capture differently from how they move. They can capture an enemy piece on either of the two spaces adjacent to the space in front of them (i.e., the two squares diagonally in front of them) but cannot move to these spaces if they are vacant.
 `;
 const scrabbleGuidelines = `
-Guidelines for Scrabble:
+Gameplay:
 
-• Once you enter the Scrabble game, you will see a jumbled word. Participants need to rearrange alphabets and identify the correct word.
-• Ensure to input words in CAPITALS Only.
-• Each participant has to solve 20 words and 5 points for solving each word.
-• Once Participants solves all the words, the system will submit the entry.
-• Shuffle: This option will rearrange the alphabets (No Change in Score).
-• Skip: Will skip the word and will give a new word at a penalty of Minus 5 from Total points.
+   1. Starting the Game:
+       •  Players draw tiles to determine the order. The player with the letter closest to "A" goes first.
+       •  The first word must start at the center square (marked with a star).
 
-Quick Tips:
-• Look at the words backwards and forward - This helps you see the word in a different way. Example: SDROW is just WORDS backwards.
-• Write the letters down on a piece of paper and place words that go with each other next to each other and see what clicks.
-• Say the letters out loud. Sometimes reading letters out loud triggers something...
-• Experiment with the letters by quickly writing them down in a different order. For example, elzzup might not be recognizable right away, but once rearranged like 'puzzle', it becomes clear.
+   2. Building Words:
+       •  Words must be in a straight line horizontally or vertically.
+       •  Words must connect with at least one existing word on the board after the first turn.
+       •  All words must be valid as per a standard dictionary agreed upon before the game.
+
+   3. Scoring:
+    •  Add the point values of letters used in the word.
+
+       • Include premium squares:
+         -  Double Letter (DL): Doubles the score of the letter placed on it.
+         -  Triple Letter (TL): Triples the score of the letter placed on it.
+         -  Double Word (DW): Doubles the entire word score.
+         -  Triple Word (TW): Triples the entire word score.
+         
+       •  Bonuses:
+          - Use all 7 tiles in one turn (called a "Bingo") for a 50-point bonus.
+
+    4.Replacing Tiles:
+   •  Players may choose to skip their turn and exchange any or all tiles, but only if there are tiles remaining in the bag.
+
+   5. Challenging Words:
+    •  If a player doubts a word's validity, they can challenge it.
+    •  If the word is invalid, the player must remove it and lose their turn.
+    •  If valid, the challenger loses their next turn.
+
+------------------------------
+Winning the Game:
+
+    •  The game ends when:
+      1. A player uses all their tiles and no more tiles remain in the bag.
+      2. No moves are possible for all players.
+
+    •  Final Scoring:
+       -  Subtract the total value of unplayed tiles from each player=E2=80==99s score.
+       -  If a player has no tiles left, add the total value of all remaining tiles to their score.
+       -  The player with the highest score wins.
+
 `;
 const sudokuPointSystem = `
 Sudoku Scoring Rules
@@ -96,37 +125,27 @@ const scrabblePointSystem = `
    • 8 points: J, X
    • 10 points: Q, Z
 
-
-
 2. Scoring Rationale:
 The scoring system is designed to balance the frequency of letters in the language with their difficulty of use:
 
    • Common letters (like E, A, I, O) are worth less points because they're easier to play.
    • Rare letters (like Q, Z, J, X) are worth more points because they're harder to use in words.
 
-
-
 3. Word Score Calculation:
 To calculate a word's base score, you sum the points of each letter in the word. For example:
 
    • "SCRABBLE" = (S:1 + C:3 + R:1 + A:1 + B:3 + B:3 + L:1 + E:1) = 14 points
 
-
-
-4. Additional Scoring Factors (not shown in this simplified code):
+4. Additional Scoring Factors:
 
    • Bonus squares: The actual game board has bonus squares that can multiply letter or word scores.
    • Word length bonuses: In many versions, using all 7 tiles from your rack gives a 50-point bonus.
-
-
 
 5. Strategic Implications:
 
    • High-value letters (Q, Z, J, X) can significantly boost your score but are harder to place.
    • Efficient use of low-value letters is crucial for consistent scoring.
    • Placing high-value letters on bonus squares can lead to very high-scoring plays.
-
-
 
 6. Blank Tiles:
 The code doesn't explicitly show blank tiles, but in standard Scrabble:

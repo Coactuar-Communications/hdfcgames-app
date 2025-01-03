@@ -21,10 +21,11 @@ export type AccountPopoverProps = {
   }[];
   username?: string;
   email?: string;
+  employeeCode?:string;
   sx?: object;
 };
 
-export function AccountPopover({ data = [], username = 'User', email = 'user@example.com', sx, ...other }: AccountPopoverProps) {
+export function AccountPopover({ data = [], username = 'User', email = 'user@example.com',employeeCode='usercode1234', sx, ...other }: AccountPopoverProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
@@ -32,6 +33,8 @@ export function AccountPopover({ data = [], username = 'User', email = 'user@exa
   // Use username and email props directly; fetch user data if needed.
   const [fetchedUsername, setFetchedUsername] = useState<string>(username);
   const [fetchedEmail, setFetchedEmail] = useState<string>(email);
+  const [fetchedemployeeCode, setFetchedemployeeCode] = useState<string>(employeeCode);
+
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setOpenPopover(event.currentTarget);
@@ -58,6 +61,9 @@ export function AccountPopover({ data = [], username = 'User', email = 'user@exa
       if (response.isSuccess && response.user) {
         setFetchedUsername(response.user.name);
         setFetchedEmail(response.user.email);
+        setFetchedemployeeCode(response.user.employeeCode);
+console.log(response.user.employeeCode)
+
       }
     };
     fetchUserData();
@@ -118,7 +124,7 @@ export function AccountPopover({ data = [], username = 'User', email = 'user@exa
             {fetchedUsername}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {fetchedEmail}
+            {fetchedemployeeCode}
           </Typography>
         </Box>
 
