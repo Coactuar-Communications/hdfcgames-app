@@ -39,7 +39,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/apis': {
-        target: 'https://games.coact.live', // Proxy to backend server
+        target: 'https://gameserver.coact.live/apis', // Proxy to backend server
         // changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, ''), // Rewrite path if necessary
       },

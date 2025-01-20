@@ -14,7 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select,{ SelectChangeEvent } from '@mui/material/Select';
-
+import { useRouter } from 'src/routes/hooks';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import analyt from '../../assets/images/img/logo2.jpg';
@@ -26,6 +26,7 @@ import {
 } from '../../utils/validation';
 
 export function SignUpView() {
+    const router = useRouter();
   const [userDetails, setUserDetails] = useState({
     employecode:'',
     name: '',
@@ -112,7 +113,8 @@ export function SignUpView() {
           confirmPassword: '',
         });
         setAcceptDisclaimer(false); // Uncheck the checkbox
-        setSnackbar({ open: true, message, severity: 'success' });
+        // setSnackbar({ open: true, message, severity: 'success' });
+        router.push('/sign-in');
       } else {
         const errorMessage = data?.error ?? 'User already exists! Please login with your credentials.';
         setSnackbar({ open: true, message: errorMessage, severity: 'error' });
@@ -154,12 +156,15 @@ export function SignUpView() {
           name="employecode"
           label="Employee Code"
           InputLabelProps={{ shrink: true }}
-          sx={{ mb: 3 }}
+          sx={{ mb: 2 }}
           value={userDetails.employecode}
           onChange={handleChange}
           helperText={snackbar.message === 'Employecode must be at least 3 characters long and contain valid characters.' ? snackbar.message : ''}
           error={snackbar.severity === 'error' && snackbar.message.includes('Employecode')}
         />
+        <Typography variant="body2" color="error" sx={{ mb: 2 }}>
+         Please enter the correct employee code. Failure to do so will result in disqualification.
+        </Typography>
         <TextField
           fullWidth
           name="name"
@@ -272,7 +277,7 @@ export function SignUpView() {
       {/* Snackbar for success and error messages */}
       <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Position the Snackbar
-      
+
       >
         <Alert onClose={handleSnackbarClose} severity={snackbar.severity} variant="filled" sx={{ width: '100%' }}>
           {snackbar.message}

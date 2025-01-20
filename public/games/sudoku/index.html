@@ -139,7 +139,7 @@
                         const token = localStorage.getItem('authToken');
                         // If user is authenticated, save the score
                         if (userId) {
-                            fetch('https://games.coact.live/apis/games/sudukoscore', {
+                            fetch('https://gameserver.coact.live/apis/games/sudukoscore', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',

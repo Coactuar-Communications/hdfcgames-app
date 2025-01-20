@@ -523,7 +523,7 @@ function announceWinner() {
   };
   console.log('Winner data:', data);
   // Send data to the backend
-  fetch('https://games.coact.live/apis/games/scrabble', {
+  fetch('https://gameserver.coact.live/apis/games/scrabble', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

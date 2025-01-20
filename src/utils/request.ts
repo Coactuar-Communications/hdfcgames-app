@@ -1,8 +1,8 @@
-import axios, { AxiosRequestConfig, Method } from 'axios';
-import store from '../store';
-import { showLoader, hideLoader } from '../store/toastSlice';
+import axios, { AxiosRequestConfig, Method } from "axios";
+import store from "../store";
+import { showLoader, hideLoader } from "../store/toastSlice";
 
-const BASE_URL = "https://games.coact.live/apis";
+const BASE_URL = "https://gameserver.coact.live/apis";
 
 interface ResponseData {
   isSuccess?: boolean;
@@ -10,12 +10,15 @@ interface ResponseData {
   [key: string]: any;
 }
 
-async function getData(url: string, otherData: AxiosRequestConfig = {}): Promise<ResponseData> {
+async function getData(
+  url: string,
+  otherData: AxiosRequestConfig = {}
+): Promise<ResponseData> {
   try {
     store.dispatch(showLoader());
     const { data } = await axios.get(`${BASE_URL}/${url}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
       ...otherData,
     });
@@ -23,14 +26,18 @@ async function getData(url: string, otherData: AxiosRequestConfig = {}): Promise
     return data;
   } catch (error: any) {
     store.dispatch(hideLoader());
-    return { isSuccess: false, msg: error.message || error };
+    const responseData = error.response?.data || {};
+    return {
+      isSuccess: false,
+      msg: responseData.msg || error.message || "An error occurred",
+    };
   }
 }
 
 async function postData(
   url: string,
   payload: Record<string, any>,
-  method: Method = 'POST'
+  method: Method = "POST"
 ): Promise<ResponseData> {
   try {
     store.dispatch(showLoader());
@@ -39,8 +46,8 @@ async function postData(
       url: `${BASE_URL}/${url}`,
       data: payload,
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
     });
 
@@ -48,7 +55,11 @@ async function postData(
     return data;
   } catch (error: any) {
     store.dispatch(hideLoader());
-    return { isSuccess: false, msg: error.message || error };
+    const responseData = error.response?.data || {};
+    return {
+      isSuccess: false,
+      msg: responseData.msg || error.message || "An error occurred",
+    };
   }
 }
 
